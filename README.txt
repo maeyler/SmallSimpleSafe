@@ -1,2 +1,2 @@
 SSS files 
-(C) 2004
+(C) 2004 MAE
