@@ -1,0 +1,143 @@
+<HTML>
+<HEAD><TITLE>SSS Applet </TITLE>
+<link rel="stylesheet" href="all.css" media="all">
+</HEAD>
+
+<BODY>
+<TABLE cellSpacing=0 cellPadding=5 border=0>
+  <TR>
+    <TD align="middle" class="menu" colSpan=3>
+      <A href="index.html">SSS Home</A> | 
+      </A href="applet.html">Applet</A> | 
+      <A href="download.html">Download</A> | 
+      <A href="sample.html">Sample Screen</A> | 
+      <A href="guide.html">User Guide</A> |
+      <A href="javadoc/mae/sss/package-summary.html">API</A> | 
+      <A href="faq.html">FAQ</A> | 
+    </TD>
+  </TR>
+  <!--TR>
+    <TD align="middle" colSpan=2><H3>
+SSS Applet 
+    </H3></TD>
+  </TR-->
+  <TR>
+    <TD colSpan=3>
+    </TD>
+  </TR>
+  <TR>
+   <td colSpan=2>
+<APPLET 
+CODE="mae.sss.Demo"
+archive="jars/sssDemo.jar"
+width=440 height=375>
+<PARAM NAME=show1 VALUE="java.lang.String">
+<PARAM NAME=show2 VALUE="mae.tut.num.Factory">
+<PARAM NAME=show3 VALUE="mae.util.Small">
+</APPLET>
+   </td>
+   <td>
+You see two lists on the Applet pane at the left.
+One shows classes and objects, the other shows
+public members of the selected class or object. 
+Please follow directions on the right pane below
+and observe the result in the gray message area.
+<P>
+<PRE>
+Instructions:
+1. Click on String MSG = "..."
+   and press Enter
+2. Click on charAt(int) and 
+   enter 0 in the dialog
+3. Click on endsWith(String),  
+   type "full", press Enter
+4. Click on ===String===
+5. Click on valueOf(double), 
+   type 3.1416, press shift TAB,
+   enter pi as object name
+6. Click on length()
+7. Click on mae.util.Small ,
+   then on new Small(), and
+   enter s in the dialog
+8. Click on getFrame(), and 
+   enter frm in the dialog
+9. Type dispose on command area 
+   (lower left) and press Enter
+</PRE>
+   </td>
+  </TR>
+  <TR>
+   <td colSpan=3>
+If you see a gray box instead of a working applet,
+it is time to download Java VM from 
+<a href="http://java.sun.com/getjava/">
+<img src="image/get_java_blue-button.gif" alt="">
+</a><P>
+Explanation of the steps above:
+   </td>
+  </TR>
+  <TR>
+   <td width=80%>
+<OL>
+<li>MSG is a field in class Small. It is a String 
+instance. We display its value by clicking on it. <BR>
+The border color changes to yellow, meaning an object.
+<li>charAt(int) is a method in class String.
+We invoke it with argument 0.  
+The result is char 'S' which is displayed in the gray 
+message area and in Java Console.
+<li>We invoke another method on the same object.
+The result is false.
+<li>We display the class of the current object by 
+clicking on the separator with "===". <BR>
+The border color changes back to green, meaning a class.
+<li>String class has several static methods with name 
+"valueOf".  We invoke the one with a float argument
+and get another String object, with hame "pi". <BR>
+If we fail to supply a name, SSS will assign one.
+<li>Another instance method is invoked.  <BR> Since it has
+no arguments and no object is returned, the parameter
+dialog was not shown. 
+<li>We display the original class Small, and invoke
+a cunstructor with no arguments.  <BR> 
+The resulting object is named "s".
+<li>Display the JFrame instance by invoking getFrame().  
+<BR>It has several hundred methods and no public fields.
+<BR>(Static fields are not shown with objects)
+<li>Finaly, invoke method dispose(), by using the command area.  
+It could also be invoked by clicking on "dispose()".
+</OL>
+   </td>
+   <td valign="top" colSpan=2> 
+      <table class="box"> 
+        <td>
+At this point, you should see 3 classes and 4 objects.<BR> 
+If you open Java Console, this is what you will get:
+<PRE>
+class mae.util.Small
+MSG = Small.MSG; //--> "Small is beautiful"
+MSG.charAt(0); //--> S
+MSG.endsWith("full"); //--> false
+class java.lang.String
+pi = String.valueOf(3.1416); //--> "3.1416"
+pi.length(); //--> 6
+s = new Small(); //--> @44d04d
+frm = s.getFrame(); //--> frame0 - Small...
+frm.dispose();
+</PRE>
+        </TD>
+      </TABLE>
+    </TD>
+  </TR>
+</TABLE>
+<P><H6>
+<a href="index.html">
+<img src="image/LeftArrow.gif" align="left" border=0 alt="Previous Page"></a>
+<a href="download.html">
+<img src="image/RightArrow.gif" align="right" border=0 alt="Next Page"></a>
+Program by <!--A href="http://www.eng.marmara.edu.tr/~eyler/"-->
+Akif Eyler</A> from Istanbul, Turkey. Web design by Celalettin Penbe.
+Last update: June 2004 
+</H6>
+</BODY>
+</HTML>

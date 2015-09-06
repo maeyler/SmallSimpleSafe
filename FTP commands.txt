@@ -1,0 +1,19 @@
+/usr/local/apache/htdocs/courses/cse/
+
+
+ftp://eyler@www.eng.marmara.edu.tr
+(eski IP) ftp://eyler@194.27.54.4
+ftp 193.140.143.73
+
+ftp www.eng.marmara.edu.tr
+eyler/xxxxx
+cd sss
+pwd
+lcd /Dosyalar/java/web
+bin
+put xyz
+put men*
+cd jars
+lcd jars
+put xxx.jar
+quit
