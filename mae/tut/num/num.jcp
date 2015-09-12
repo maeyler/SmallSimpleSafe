@@ -1,0 +1,30 @@
+! ** JCreator Project File (C)2000
+! ********** DO NOT EDIT *********
+
+VERSION := "1.10"
+LABEL := "num"
+JDKPROFILE := "JDK version "
+ACTIVE := "0"
+OUTPUTPATH := "..\\..\\..\\"
+COMPILER := "<Default>"
+
+! Start RunTime Configuration Structure
+#[BeginRunTime]LABEL := "<Default>" RUNAPPLIC := "" RUNAPPLET := "" PARAM := "" RUN := "mae.tut.num.TestNumber" CHECK := "10" #[EndRunTime]
+! Start Required Libraries Structure
+
+! Start Project Folder Structure
+#[BeginFolder]
+LABEL := "Root"
+FILTER := ""
+
+#[BeginFile]SOURCE := "\\Ordinal.java" #[EndFile]
+#[BeginFile]SOURCE := "\\Decimal.java" #[EndFile]
+#[BeginFile]SOURCE := "\\Matrix.java" #[EndFile]
+#[BeginFile]SOURCE := "\\Number.java" #[EndFile]
+#[BeginFile]SOURCE := "\\Whole.java" #[EndFile]
+#[BeginFile]SOURCE := "\\Complex.java" #[EndFile]
+#[BeginFile]SOURCE := "\\Cruncher.java" #[EndFile]
+#[BeginFile]SOURCE := "\\Factory.java" #[EndFile]
+#[BeginFile]SOURCE := "\\Rational.java" #[EndFile]
+#[BeginFile]SOURCE := "\\TestNumber.java" #[EndFile]
+#[EndFolder]
