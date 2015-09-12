@@ -1,0 +1,131 @@
+SSS V1.32
+=========
+* Menu.loadClass() is generalized to load from any package 
+
+* ParamDialog: check String entry
+
+SSS V1.31
+=========
+* Font selection dialog (prefs not saved yet)
+
+* All classes are public, most have publicconstructors
+
+SSS V1.30
+=========
+* Menu.toTree(File): check if zip/jar file or directory
+
+* TimerLoader: add identity (just a counter)
+
+SSS V1.29
+=========
+* More.listClasses(ClassLoader)
+
+* More.toZipFile(File)
+
+* Menu.toTree(Container): do not expand JScrollPane
+
+SSS V1.28
+=========
+* ParamDialog: center correctly
+
+* More.getFrames() and More.getThreads()
+
+* classes can be removed
+
+* Menu$Loader -> mae.util.TimerLoader
+  Menu$Filter -> mae.util.SimpleFilter
+  Inspector$Data (becomes inner class)
+
+SSS V1.26
+=========
+* Listener -> Ear
+
+* ParamDialog: do not print exceptions
+
+* Menu$Loader: showTime() and listClasses()
+
+* More.getClassLoader(Object)
+
+SSS V1.25 
+=========
+* enrich Menu with More
+
+SSS V1.23
+=========
+* ColoredSplitPane has a colored divider
+
+* use FileFilter for choosing classes
+
+* initial directory: "user.dir" property
+
+* do not show hidden files
+
+* setAccessible(true) for fields
+
+* extend URLClassLoader to report unloading classes
+
+
+SSS V1.22
+=========
+* JfileChooser is used (unix FileDialog is terrible)
+
+* mousePressed() method corrected 
+ (bug in FileDialog caused an extra mouse event)
+
+* Small and Jsmall combined (no more AWT classes)
+
+* history keeps just one position 
+ (problem with releasing unused classes)
+
+* ParamDialog problems corrected 
+ (ESC key works and no more beeps)
+
+
+SSS V1.20
+=========
+* clear right pane after removing an object
+
+* static method/constructor names corrected
+
+* getSystemClass() uses hierarchy and buttons
+
+* lists allow single selection
+
+* number of packages and classes in rt.jar reported
+
+
+SSS V1.15
+=========
+* Methods are shown as:   name(params) -> type
+
+* chooseClass() --> getSystemClass()
+  replace tree by list  (less work on system)
+
+* class objects can be removed (not classes yet)
+
+* hot deployment works
+  (an open class can be modified outside and reloaded)
+
+
+SSS V1.13
+=========
+* <delete> key is used to remove objects 
+  (removing classes is not allowed yet)
+
+* longer lists  16 --> 18 lines
+
+* invoke() prepares parameter list before the call
+
+
+SSS V1.12
+=========
+* Splash screen (it takes longer to load, because of next feature)
+
+* Menu.chooseClass()   (very slow to load)
+
+* Menu.rename() and Menu.remove()  (was _very_ difficult!)
+
+* Output is more similar to Java syntax (just add semicolons)
+
+* <ESC> key displays Menu
+

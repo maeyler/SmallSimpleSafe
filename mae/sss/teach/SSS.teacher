@@ -1,0 +1,75 @@
+//This lesson is about SSS itself.
+//You can use arrow keys to change speed, Enter
+//key to continue, Escape key to stop the Teacher.
+//+Dialogs are best used with keyboard, not mouse.
+class mae.util.Small
+
+//First we need a class to start inspection.
+//Small is a sample class with minimal members.
+//+Border color is green, meaning a class is displayed,
+//+its constructors and static methods are available.
+class mae.util.Small
+
+//MSG is a field in class Small. It is a String instance. 
+//Display it by clicking on it, enter m as its name.
+//+Border color changes to yellow, meaning an object is 
+//+displayed and its public methods are available.
+m = Small.MSG; //--> "Small is beautiful"
+
+//charAt(int) is a method in class String.
+//Invoke it by clicking on it, enter 0 as argument.
+//+The result is char 'S' which is displayed in the gray 
+//+message area and in Java Console.
+m.charAt(0); //--> S
+
+//Invoke another method on the same object.
+//Does m end with "full"?
+//+No
+m.endsWith("full"); //--> false
+
+//Display the class of the current object by 
+//clicking on the separator with "===". 
+//+The border color changes back to green: class mode.
+class java.lang.String
+
+//String class has several static methods with name 
+//"valueOf".  Invoke the one with a double argument
+//+and get another String object, with name "pi". 
+pi = String.valueOf(3.1416); //--> "3.1416"
+
+//Another instance method is invoked.
+//What is the length of pi?
+//+There are 6 chars
+pi.length(); //--> 6
+
+//Display the original class Small by clicking on it.
+//+It has a static method and a constructor.
+class mae.util.Small
+
+//Invoke the constructor with no arguments.   
+//We want to call this object S.
+//+It has several public methods.
+S = new Small(); //--> @1d532ae
+
+//Get the list owned by S
+//+which is an instance of JList.
+lst = S.getList(); //--> items
+
+//Invoke an instance method, 
+//by clicking on "setSelectedIndex()"
+//+Item 2 is selected
+lst.setSelectedIndex(2);
+
+//Get the frame owned by S
+//+which is an instance of JFrame.  
+//+It has several hundred methods and no public fields.
+f = S.getFrame(); //--> frame0 - Small is beautiful
+
+//Invoke an instance method, by clicking on "dispose()"
+//It could also be invoked by typing in the command area. 
+//+The window disappears
+f.dispose();
+
+//Is it showing?
+//+No
+f.isShowing(); //--> false
