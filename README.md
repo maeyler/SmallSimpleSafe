@@ -1,7 +1,7 @@
-﻿## Small Simple Safe
+## Small Simple Safe
 
-Tool for handling classes and objects
+Welcome to the World of Classes and Objects
 
-Click here for [the Web pages](http://maeyler.github.io/SmallSimpleSafe/) and to [Download](https://github.com/maeyler/SmallSimpleSafe/blob/master/sss.jar?raw=true)
+This branch has the files for [the Web pages](http://maeyler.github.io/SmallSimpleSafe/) 
 
-Designed and implemented by M A Eyler for instruction in Marmara University
+Designed and implemented by M A Eyler in Marmara University
