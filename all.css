@@ -8,12 +8,14 @@ table {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 11px;
 	border: 1px solid rgb(50,50,50);
+	width:720px; 
 }
 h6 {
 	text-align: center;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 9px;
 	font-weight: normal;
+	width:720px; 
 }
 
 .menu {
