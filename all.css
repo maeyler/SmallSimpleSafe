@@ -8,6 +8,7 @@ table {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 11px;
 	border: 1px solid rgb(50,50,50);
+	width:800px;
 }
 h6 {
 	text-align: center;
