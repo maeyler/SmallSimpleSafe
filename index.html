@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/custom.css" >
     <link rel="stylesheet" href="css/gh-fork-ribbon.css">
-    <link rel="shortcut icon" href="image/sss.ico">
+    <!-- link rel="shortcut icon" href="image/sss.ico" -->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -25,7 +25,8 @@
 
     <div class="github-fork-ribbon-wrapper right">
         <div class="github-fork-ribbon">
-            <a href="https://github.com/maeyler/SmallSimpleSafe">Fork me on GitHub</a>
+            <a href="https://github.com/maeyler/SmallSimpleSafe" target="_blank">
+            Fork me on GitHub</a>
         </div>
     </div>
 
@@ -161,38 +162,45 @@
     </div>
 
     <div class="row">
-      <div class="col-md-7">
+      <div class="col-md-6">
         <strong>Teacher</strong>
         <p>
           Since V1.45, SSS has self-teaching capability.
           This capability eliminates the need for a User Guide.
         </p>
         <p>
-          1. Click on Menu.chooser(), then on teacher(String),
-          and enter "SSS".  This will start a Teacher session.
+          1. Click on <code>Menu.chooser()</code>, then on <code>teacher(String)</code>,
+          and enter <code>SSS</code>.  This will start a Teacher session.
           Continue by pressing Enter as needed.
           You may adjust the speed using the slider.
         </p>
         <p>
-          2. Click on Menu.chooser(), then on teacher(String),
-          and enter a lesson name:
-          <ul>
-            <li>String</li>
-            <li>Number</li>
-            <li>HashSet</li>
-            <li>Serial</li>
-            <li>GUI</li>
-          </ul>
+          2. Click on <code>Menu.chooser()</code>, then on <code>teacher(String)</code>,
+          and enter a lesson name: 
+          <code>String</code>, <code>Number</code>, <code>HashSet</code>, 
+          <code>Serial</code>, or <code>GUI</code>
         </p>
       </div>
-      <div class="col-md-5">
-        <img src="images/dialog.gif" alt="Parameter Dialog">
+      
+      <div class="col-md-6">
+        <strong>Active keys in SSS </strong>
+        <ul>
+          <li>Escape: select Menu class</li>
+          <li>LEFT/Back: backward in history</li>
+          <li>RIGHT:  forward in history</li>
+          <li>Period: toggle between classes and objects</li>
+          <li>Delete: remove current class or object
+              <BR>(nothing is actually deleted)</li>
+          <li>Comma/F2: rename current object</li>
+          <li>F5:  refresh view</li>
+          <li>A-Z: scroll to method beginning with this char</li>
+        </ul>
       </div>
     </div>
 
     <br/>
     <div class="row">
-      <div class="col-md-5">
+      <div class="col-md-4">
         <strong>Parameter dialog</strong>
         <p>
           In order to enter parameters in a method
@@ -209,26 +217,17 @@
           delimeters are supplied.
         </p>
         <p>
-          The sample screen above shows a user error in an
+          The sample screen shows a user error in an
           integer field.
         </p>
       </div>
  
       <div class="col-md-4">
-        <strong>Active keys in SSS </strong>
-        <ul>
-          <li>Escape: show Menu</li>
-          <li>LEFT/Back: backward in history</li>
-          <li>RIGHT:  forward in history</li>
-          <li>Period: toggle between classes and objects</li>
-          <li>Delete: remove current class or object
-              <BR>(nothing is actually deleted)</li>
-          <li>Comma/F2: rename current object</li>
-          <li>F5:  refresh view</li>
-          <li>A-Z: scroll to method beginning with this char</li>
-        </ul>
+        <CENTER>
+        <img src="images/dialog.gif" alt="Parameter Dialog">
+        </CENTER>
       </div>
-     
+
       <div class="col-md-3">
         <strong>Active keys in Dialog </strong>
           <ul>
@@ -258,8 +257,8 @@
           </li>
           <li class="list-group-item">
       SSS is a simple tool for handling classes and objects.
-      <A href="http://www.onjava.com/pub/a/onjava/2004/05/26/sss.html">
-      An article</A> by Alper Coskun explains it best.
+      <a href="http://www.onjava.com/pub/a/onjava/2004/05/26/sss.html" target="_blank">
+      An article</a> by Alper Coskun explains it best.
           </li>
         </ul>
         <ul class="list-group">
@@ -267,8 +266,8 @@
       Who is the author?
           </li>
           <li class="list-group-item">
-      <A href="http://mimoza.marmara.edu.tr/~maeyler/">
-      M Akif Eyler</A> from Istanbul, Turkey. <BR>
+      <a href="http://mimoza.marmara.edu.tr/~maeyler/" target="_blank">
+      M Akif Eyler</a> from Istanbul, Turkey. <BR>
           </li>
         </ul>
         <ul class="list-group">
@@ -335,16 +334,16 @@
       Safe:    only public members are accessible <BR>
           </li>
         </ul>
-
-
       </div>
     </div>
 
     <hr />
     <footer class="footer">
       <em><small>
-        Program by M Akif Eyler. Web design by Celalettin Penbe (2004),
-        Bootstrap by Hakan Dilek (2015)
+Program by <a href="https://github.com/maeyler" target="_blank">M Akif Eyler</a>. 
+Web design by Celalettin Penbe (<a href="index 2004.html" target="_blank">2004</a>).
+<a href="http://getbootstrap.com/" target="_blank">Bootstrap</a> implementation by 
+<a href="https://github.com/HakanDilek" target="_blank">Hakan Dilek</a> (2015).
       </small></em>
     </footer>
 
