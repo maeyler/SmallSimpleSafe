@@ -1,63 +1,348 @@
-<HTML>
-<HEAD><TITLE>Small Simple Safe </TITLE>
-<link rel="stylesheet" href="all.css" media="all">
-<link rel="shortcut icon" href="image/sss.ico">
-</HEAD>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<BODY><CENTER>
-<TABLE cellSpacing=0 cellPadding=5 border=0>
-  <TR>
-    <TD align="middle" class="menu" colSpan=2>
-      </A href="index.html">SSS Home</A> | 
-      <A href="sample.html">Sample Screen</A> | 
-      <A href="guide.html">User Guide</A> |
-      <A href="faq.html">FAQ</A> | 
-    </TD>
-  </TR>
-  <TR>
-    <TD align="middle" colSpan=2>
-<H1>Small Simple Safe
-</H1><H3>
-Welcome to the World of Classes and Objects
-</H3>
-    </TD>
-  </TR>
-  <TR>
-    <TD align="left" valign="top">
-SSS is a simple tool for handling classes and objects. You can 
-load Java classes and immediately build objects using public 
-constructors. Public methods can then be invoked by a single click. 
-The results are displayed in the gray message area and in Java 
-Console, which may be kept open.  
-<p>
-SSS allows very quick access to public methods in any class.  It has
-nothing to do with Java syntax.  You can test a class just by clicking
-and without writing test code.
-<p>
-You see two lists on the Applet picture at the right. One shows
-classes and objects, the other shows public members of the
-selected class or object.  Four classes (String, DemoMenu, 
-Factory, Small) and four objects (MSG, pi, s, frm)
-are shown in the picture.
-    </td>
-    <TD>
-<IMG src="images/screen1.gif" alt="This is a picture of the applet screen">
-    </TD>
-  </TR>
-</TABLE>
-<P><H6>
-<a href="faq.html">
-<img src="images/LeftArrow.gif" align="left" border=0 alt="Previous Page"></a>
-<a href="sample.html">
-<img src="images/RightArrow.gif" align="right" border=0 alt="Next Page"></a>
-Program by Akif Eyler. Web design by Celalettin Penbe.
-Last update: Sep 2015
-</H6>
-<p><a href="https://github.com/maeyler/SmallSimpleSafe/blob/master/sss.jar?raw=true"><strong>Download SSS</strong></a>
-</p>
-<!--p><a href="https://github.com/maeyler" target="_blank">
-<strong>View On GitHub</strong></a></p-->
-<p>Hosted on <a href="https://github.com/maeyler/SmallSimpleSafe" target="_blank">GitHub Pages</a></p>
-</CENTER>
-</BODY>
-</HTML>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" >
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/custom.css" >
+    <link rel="stylesheet" href="css/gh-fork-ribbon.css">
+    <link rel="shortcut icon" href="image/sss.ico">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <link rel="stylesheet" href="css/gh-fork-ribbon.ie.css">
+    <![endif]-->
+  </head>
+
+<body data-spy="scroll" role="document">
+
+    <div class="github-fork-ribbon-wrapper right">
+        <div class="github-fork-ribbon">
+            <a href="https://github.com/maeyler/SmallSimpleSafe">Fork me on GitHub</a>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">SSS</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#sample">Sample Screen</a></li>
+          <li><a href="#guide">User Guide</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+  <div class="container" role="main">
+
+    <!-- Home -->
+
+    <div class="row" id="home">
+      <div class="col-md-12">
+        <div class="jumbotron">
+          <h1 class="page-header">Small Simple Safe<br/>
+          <small>Welcome to the World of Classes and Objects</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <p>
+          SSS is a simple tool for handling classes and objects. You can
+          load Java classes and immediately build objects using public
+          constructors. Public methods can then be invoked by a single click.
+          The results are displayed in the gray message area and in Java
+          Console, which may be kept open.
+        </p>
+        <p>
+          SSS allows very quick access to public methods in any class.  It has
+          nothing to do with Java syntax.  You can test a class just by clicking
+          and without writing test code.
+        </p>
+        <p>
+          You see two lists on the Applet picture at the right. One shows
+          classes and objects, the other shows public members of the
+          selected class or object.  Four classes (String, DemoMenu,
+          Factory, Small) and four objects (MSG, pi, s, frm)
+          are shown in the picture.
+        </p>
+      </div>
+      <div class="col-md-6">
+        <img src="images/screen1.gif" alt="This is a picture of the applet screen">
+      </div>
+    </div>
+
+    <!-- Sample -->
+
+    <div class="row" id="sample">
+      <div class="col-md-12">
+        <h1 class="page-header">Sample Screen</h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <img src="images/screen2.gif" alt="Classes, objects, methods">
+      </div>
+      <div class="col-md-6">
+        <p>
+          The pictures on this page display SSS
+          running as an application.  The top window
+          has the applet contents and the console
+          shows history.
+        </p>
+        <p>
+          The sample screen at the left shows several classes and objects.
+          Each object is shown with its actual type, local name, and value.
+          All public methods of the selected item are displayed at the right
+          pane. User actions are shown at the history pane (Console) below.
+        </p>
+        <p>
+          Three classes (String, TreeSet, DemoMenu) and several
+          objects (b, t, s, a) are shown at this time.
+          A String instance is selected for display.
+        </p>
+      </div>
+    </div>
+
+    <hr />
+    <div class="row">
+      <div class="col-md-6">
+        <img src="images/screen3.gif" alt="Picture of Console">
+      </div>
+      <div class="col-md-6">
+        <p>
+          The sample run makes two String objects, b and t.
+          Then class TreeSet is loaded and an instance is made.
+          Strings are added into the set.
+          An existing member of the set cannot be added again.
+          There are 3 members at the end, alphabetically ordered.
+          Finally, the set is copied into an Object array a.
+        </p>
+        <p>
+          The user may clear or save console text.
+          It is also possible to reset system output to
+          regular console.
+        </p>
+      </div>
+    </div>
+
+    <!-- Guide -->
+
+    <div class="row" id="guide">
+      <div class="col-md-12">
+        <h1 class="page-header">User Guide</h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8">
+        <h2>Teacher</h2>
+        <p>
+          Since V1.45, SSS has self-teaching capability.
+          This capability eliminates the need for a User Guide.
+        </p>
+        <p>
+          1. Click on Menu.chooser(), then on teacher(String),
+          and enter "SSS".  This will start a Teacher session.
+          Continue by pressing Enter as needed.
+          You may adjust the speed using the slider.
+        </p>
+        <p>
+          2. Click on Menu.chooser(), then on teacher(String),
+          and enter a lesson name:
+          <ul>
+            <li>String</li>
+            <li>Number</li>
+            <li>HashSet</li>
+            <li>Serial</li>
+            <li>GUI</li>
+          </ul>
+        </p>
+
+        <h2>Parameter dialog</h2>
+        <p>
+          In order to enter parameters in a method
+          invocation, an orange dialog appears.
+          A rather complicated instance from
+          JOptionPane class is shown below.
+        </p>
+        <p>
+          If a number is expected, an editable text
+          field is shown, with an initial value of zero.
+          If an object name is expected, a combo box
+          helps the user to choose the object.
+          For char, String, and array types, the usual
+          delimeters are supplied.
+        </p>
+        <p>
+          The sample below shows a user error in an
+          integer field.
+        </p>
+
+        <h2>Active keys in SSS </h2>
+        <ul>
+          <li>Escape: show Menu</li>
+          <li>LEFT/Back: backward in history</li>
+          <li>RIGHT:  forward in history</li>
+          <li>Period: toggle between classes and objects</li>
+          <li>Delete: remove current class or object
+              <BR>(nothing is actually deleted)</li>
+          <li>Comma/F2: rename current object</li>
+          <li>F5:  refresh view</li>
+          <li>A-Z: scroll to method beginning with this char</li>
+        </ul>
+
+        <h2>Active keys in Dialog </h2>
+          <ul>
+          <li>Escape: cancel parameter entry</li>
+              <BR>and method invocation (same as close)
+          <li>ENTER: accept entry (same as OK)</li>
+          <li>TAB:  next parameter</li>
+          <li>shift-TAB:  previous parameter</li>
+        </ul>
+
+      </div>
+      <div class="col-md-4">
+        <img src="images/dialog.gif" alt="Parameter Dialog">
+      </div>
+
+    </div>
+
+    <!-- FAQ -->
+
+    <div class="row" id="faq">
+      <div class="col-md-12">
+        <h1 class="page-header">FAQ</h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-info">
+      What is SSS?
+          </li>
+          <li class="list-group-item">
+      SSS is a simple tool for handling classes and objects.
+      <A href="http://www.onjava.com/pub/a/onjava/2004/05/26/sss.html">
+      An article</A> by Alper Coskun explains it best.
+          </li>
+        </ul>
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-info">
+      Who is the author?
+          </li>
+          <li class="list-group-item">
+      <A href="http://mimoza.marmara.edu.tr/~maeyler/">
+      M Akif Eyler</A> from Istanbul, Turkey. <BR>
+          </li>
+        </ul>
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-info">
+      Is it for beginners only?
+          </li>
+          <li class="list-group-item">
+      SSS would be very useful for a beginner learning java.lang.String or
+      java.io.File.  A programmer mastering java.net.URL or java.util.TreeSet
+      would also benefit from fast learning.  Experienced programmers will also
+      find it useful as a fast inspector.
+          </li>
+        </ul>
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-info">
+      On which system does it run?
+          </li>
+          <li class="list-group-item">
+      Being a pure-Java application, it works on all platforms
+      where JVM (Java Versin 6 or higher) is installed.
+          </li>
+        </ul>
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-info">
+      Do I need to expand the jar file?
+          </li>
+          <li class="list-group-item">
+      No, the proper way to run SSS is <BR>
+      % java -jar sssDemo.jar <BR>
+      Both Windows and Linux platforms allow you to use "open with"
+      command and then enter "java -jar" as the command.  This will connect
+      jar files to the JVM and you can open them just by clicking on them.
+      (When JVM is installed, this connection is automatic)
+          </li>
+        </ul>
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-info">
+      When I invoke a method "X10" is written in the text
+      field. Why?
+          </li>
+          <li class="list-group-item">
+      Every object under inspection must have a name. (Names are always
+      better than addresses.)  So every time a new object will be returned,
+      the user is asked to supply a name. X10 is the default name for the
+      first object.  It will become X11, X12, ... as needed.
+          </li>
+        </ul>
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-info">
+      How do I get the full version?
+          </li>
+          <li class="list-group-item">
+      SSS is in the public domain.
+      <a href="https://github.com/maeyler/SmallSimpleSafe/blob/master/sss.jar?raw=true"
+      class="button fork"><strong>Download SSS</strong></a>
+          </li>
+        </ul>
+          <li class="list-group-item list-group-item-info">
+      Why SSS?
+          </li>
+          <li class="list-group-item">
+      Small:   about 300K, as a jar file <BR>
+      Simple:  you can use it with no knowledge of Java language <BR>
+      Safe:    only public members are accessible <BR>
+          </li>
+        </ul>
+
+
+      </div>
+    </div>
+
+    <hr />
+    <footer class="footer">
+      <small>
+        Program by Akif Eyler. Web design by Celalettin Penbe.
+        Last update: Sep 2015
+      </small>
+    </footer>
+
+  </div>
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="js/bootstrap.min.js"></script>
+</body>
+</html>
