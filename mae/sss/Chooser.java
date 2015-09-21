@@ -19,6 +19,7 @@ import java.util.zip.ZipEntry;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -39,10 +40,25 @@ public class Chooser {
 
 	static Chooser classD;
 	static FontDialog fontD;
-	static File lastDir;  //JFileChooser fileD;
+	static File lastDir;  
+        static JFileChooser fileD;  //retained for Teacher.java
 	static final SimpleFilter 
 		CLASS_FLTR = new SimpleFilter("class", "Java class files"),
 		JAR_FLTR = new SimpleFilter("jar", "Java jar archives");
+	static final FileFilter TEACH_FLTR = new FileFilter() {
+	    public String getDescription() {
+		return "SSS teacher files";
+	    }
+	    public boolean accept(File f) {
+		if (f == null || f.isDirectory())
+			return true;
+		String s = f.getName().toLowerCase();
+		return s.endsWith("teacher") || s.endsWith("txt");
+	    }
+	    public String toString() {
+		return "*.txt";
+	    }
+        };
         static final Runtime RT = Runtime.getRuntime();
 
 	/** Opens Browser */
@@ -97,16 +113,16 @@ public class Chooser {
 		return fileToOpen(new SimpleFilter(e, "*." + e));
 	}
 	static JFileChooser initFileD() {
-                JFileChooser fileD = Scaler.fileChooser();   //V1.68
+                /*JFileChooser*/ fileD = Scaler.fileChooser();   //V1.68
                 if (lastDir == null) 
 		    lastDir = new File(System.getProperty("user.dir"));
 		fileD.setCurrentDirectory(lastDir);
 		fileD.setFileHidingEnabled(true);
                 return fileD;
 	}
-	static File fileToOpen(SimpleFilter t) {//local use
-		/*if (fileD == null) initFileD();*/ 
-		JFileChooser fileD = initFileD();
+	static File fileToOpen(FileFilter t) {//local use
+		/*if (fileD == null) initFileD(); 
+		JFileChooser*/ fileD = initFileD();
 		fileD.resetChoosableFileFilters();
 		if (t != null) {
                     fileD.addChoosableFileFilter(t);
@@ -121,8 +137,8 @@ public class Chooser {
 	}
 	static File fileToSave(SimpleFilter t) {
 		String ext = "";
-		/*if (fileD == null) initFileD();*/ 
-		JFileChooser fileD = initFileD();
+		/*if (fileD == null) initFileD(); 
+		JFileChooser*/ fileD = initFileD();
 		fileD.resetChoosableFileFilters();
 		if (t != null) {
 			fileD.addChoosableFileFilter(t);
@@ -144,7 +160,7 @@ public class Chooser {
 	}
 	/** Starts a Teacher session from a File */
 	public static Class runTeacher() {
-		File f = file("teacher");
+		File f = fileToOpen(TEACH_FLTR);  //file("teacher");
 		if (f != null) Teacher.start(f);
 		return null;
 	}

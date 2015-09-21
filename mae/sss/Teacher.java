@@ -98,7 +98,7 @@ public class Teacher implements Runnable {
             process(i);
          } catch(Exception x) {
             System.err.println(x);
-            if (!ins.demo) Reporter.append(x);
+            /*if (!ins.demo)*/ Reporter.append(x);
          }
       D.setVisible(false);
       System.out.println("<< End "+name);
