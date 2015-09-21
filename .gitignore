@@ -1,5 +1,6 @@
 # Java class files
 *.class
+SSS.exception
 
 # Windows image file caches
 Thumbs.db
