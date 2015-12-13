@@ -11,7 +11,7 @@ import mae.util.PropertyManager;
 
 public class SSS extends JFrame {
    
-   public static final String version = "Oct 2015 V2.01";
+   public static final String version = "Nov 2015 V2.02A";
    public static final String title = "Small Simple Safe";
    public static SSS instance;
    static PropertyManager pm = new PropertyManager("mae", "SSS", SSS.class);

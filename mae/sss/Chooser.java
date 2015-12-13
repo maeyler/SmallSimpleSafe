@@ -28,7 +28,7 @@ import mae.util.SimpleFilter;
 import mae.util.Loader;
 import mae.util.TinyButton;
 import mae.util.ProxyMaker;
-import mae.brow.Browser;
+import mae.brow.*;
 import mae.util.Scaler;
 //final static Font FONT = Scaler.scaledFont("SansSerif", 0, 11); //V1.68
 
@@ -74,6 +74,13 @@ public class Chooser {
 	/** Pick your color using JColorChooser */
 	public static Color color(Color c) {  //V1.65
 		return JColorChooser.showDialog(Menu.frm, "Choose your color", c);
+	}
+	/** Compiles a single java file or all java files in a folder */
+        public static int compile(File d) { //V2.02
+            if (Fide.instance == null) Fide.main();
+            JavaSourceHandler h = new JavaSourceHandler();
+            h.setSource(d, Fide.instance);
+	    return h.compile(d);
 	}
 	/** An array of all framed windows, including hidden ones */
 	public static Window[] windows() {  //V1.66
