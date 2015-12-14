@@ -62,6 +62,7 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
         try {
             prog = Loader.loadClass(target);
             main = prog.getMethod("main", stringArray);
+            main.setAccessible(true);
             ready = true;
         } catch (NoSuchMethodException x) {
         } catch (ClassNotFoundException x) {
@@ -180,7 +181,7 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
                 edit.setMessage("compiled in " + (t / 1000) + " sec", ready);
                 //System.err.println(target+" compiled "+ready);
             } else {
-                edit.setMessage("compiler error "+k, false);
+                edit.setMessage("compiler error", false);
             }
         }
     }

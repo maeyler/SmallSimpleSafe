@@ -2,8 +2,7 @@
 // into mae.util 15.1.2004
 // simplify      18.5
 // replace More  23.5
-// ClassChooser --> ClassPicker  25.5
-// ClassPicker  --> Chooser       4.6
+// ClassChooser --> Chooser       4.6
 // JVM1.5: ignore '+'
 
 package mae.sss;
@@ -19,12 +18,10 @@ import java.util.zip.ZipEntry;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import mae.util.Console;
-import mae.util.SimpleFilter;
 import mae.util.Loader;
 import mae.util.TinyButton;
 import mae.util.ProxyMaker;
@@ -41,24 +38,9 @@ public class Chooser {
 	static Chooser classD;
 	static FontDialog fontD;
 	static File lastDir;  
-        static JFileChooser fileD;  //retained for Teacher.java
-	static final SimpleFilter 
-		CLASS_FLTR = new SimpleFilter("class", "Java class files"),
-		JAR_FLTR = new SimpleFilter("jar", "Java jar archives");
-	static final FileFilter TEACH_FLTR = new FileFilter() {
-	    public String getDescription() {
-		return "SSS teacher files";
-	    }
-	    public boolean accept(File f) {
-		if (f == null || f.isDirectory())
-			return true;
-		String s = f.getName().toLowerCase();
-		return s.endsWith("teacher") || s.endsWith("txt");
-	    }
-	    public String toString() {
-		return "*.txt";
-	    }
-        };
+	static final String //SimpleFilter 
+		CLASS_FLTR = "*class", JAR_FLTR = "*jar", 
+	        TEACH_FLTR = "*.teacher;*.txt";
         static final Runtime RT = Runtime.getRuntime();
 
 	/** Opens Browser */
@@ -115,57 +97,7 @@ public class Chooser {
 
 	/** Shows standard file chooser */
 	public static File file() {
-		return fileToOpen(null);
-	}
-	/*
-         * @deprecated -- not public any more V1.66
-	 * Shows standard file chooser, showing the files with a given extension
-        */
-	static File file(String e) {
-		//if (d == null || d.equals("")) d = ;
-		return fileToOpen(new SimpleFilter(e, "*." + e));
-	}
-	static JFileChooser initFileD() {
-                /*JFileChooser*/ fileD = Scaler.fileChooser();   //V1.68
-                if (lastDir == null) 
-		    lastDir = new File(System.getProperty("user.dir"));
-		fileD.setCurrentDirectory(lastDir);
-		fileD.setFileHidingEnabled(true);
-                return fileD;
-	}
-	static File fileToOpen(FileFilter t) {//local use
-		/*if (fileD == null) initFileD(); 
-		JFileChooser*/ fileD = initFileD();
-		fileD.resetChoosableFileFilters();
-		if (t != null) {
-                    fileD.addChoosableFileFilter(t);
-                    fileD.setFileFilter(t);  //V1.65
-                }
-		int k = fileD.showOpenDialog(Menu.frm);
-		if (k != JFileChooser.APPROVE_OPTION)
-			return null;
-		File f = fileD.getSelectedFile();
-                lastDir = fileD.getCurrentDirectory();
-		return new File(f.getParent(), f.getName());
-	}
-	static File fileToSave(SimpleFilter t) {
-		String ext = "";
-		/*if (fileD == null) initFileD(); 
-		JFileChooser*/ fileD = initFileD();
-		fileD.resetChoosableFileFilters();
-		if (t != null) {
-			fileD.addChoosableFileFilter(t);
-                        fileD.setFileFilter(t);  //V1.65
-			ext = t.getExtension();
-		}
-		if (!t.accept(fileD.getSelectedFile()))
-			fileD.setSelectedFile(new File(ext));
-		int k = fileD.showSaveDialog(Menu.frm);
-		if (k != JFileChooser.APPROVE_OPTION)
-			return null;
-		File f = fileD.getSelectedFile();
-                lastDir = fileD.getCurrentDirectory();
-		return Console.confirm(f, Menu.frm)? f : null;
+		return Console.fileToOpen(null);
 	}
 	/** Starts a Teacher session from a named resource */
 	public static void runTeacher(String s) {
@@ -173,7 +105,7 @@ public class Chooser {
 	}
 	/** Starts a Teacher session from a File */
 	public static Class runTeacher() {
-		File f = fileToOpen(TEACH_FLTR);  //file("teacher");
+		File f = Console.fileToOpen(TEACH_FLTR); 
 		if (f != null) Teacher.start(f);
 		return null;
 	}
@@ -207,7 +139,7 @@ public class Chooser {
 	 * @throws ClassNotFoundException
 	 */
 	public static Class loadClass() throws ClassNotFoundException {
-		File f = fileToOpen(CLASS_FLTR);
+		File f = Console.fileToOpen(CLASS_FLTR);
 		if (f == null)
 			return null;
 		return mae.util.Loader.loadClass(f);
@@ -310,7 +242,7 @@ public class Chooser {
 	 * returns null if a jar file is not chosen
 	 */
 	public Chooser() throws IOException, ClassNotFoundException {
-		File f = fileToOpen(JAR_FLTR);
+		File f = Console.fileToOpen(JAR_FLTR);
 		setFields(Menu.frm, new Loader(f));
 		addJarFile(f);
 	}
@@ -350,7 +282,7 @@ public class Chooser {
 	}
 	/** Adds a jar file selected by the user */
 	public Class addJarFile() throws IOException, ClassNotFoundException {
-		return addJarFile(file("jar"));
+		return addJarFile(Console.fileToOpen(JAR_FLTR));
 	}
 	/** Adds a jar file to the ClassLoader and the dialog */
 	public Class addJarFile(File f) throws IOException, ClassNotFoundException {

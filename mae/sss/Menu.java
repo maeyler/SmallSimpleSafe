@@ -23,10 +23,11 @@ import mae.brow.Fide;
 public class Menu {
 
     static JFrame frm;  //used in FileDialog
-    static final SimpleFilter 
+    static final String TXT_FLTR = "*.txt", SER_FLTR = "*.ser";
+    /*static final SimpleFilter 
         TXT_FLTR = new SimpleFilter("txt", "Plain text files"),
         SER_FLTR = new SimpleFilter("ser", "Serialized object files");
-
+    */
     Menu() { } //should be invisible
 
     /** (Chooser actions -- see {@link mae.sss.Chooser}) */
@@ -70,7 +71,7 @@ public class Menu {
      * @throws IOException
      */
     public static Object retrieveObjects() throws IOException {
-        File f = Chooser.fileToOpen(SER_FLTR);
+        File f = Console.fileToOpen(SER_FLTR);
         InputStream is = new FileInputStream(f);
         ObjectInput in = new ObjectInputStream(is); 
         List lst = new ArrayList();
@@ -94,7 +95,7 @@ public class Menu {
      * @throws IOException
      */
     public static void saveObjects(Serializable[] a) throws IOException {
-        File f = Chooser.fileToSave(SER_FLTR);
+        File f = Console.fileToSave(SER_FLTR);
         if (f == null) return;
         OutputStream os = new FileOutputStream(f);
         ObjectOutput out = new ObjectOutputStream(os); 
@@ -130,7 +131,7 @@ public class Menu {
     }
     /** Saves a String into a text file */
     public static void saveText(String txt) {
-        File f = Chooser.fileToSave(TXT_FLTR);
+        File f = Console.fileToSave(TXT_FLTR);
         if (f == null) return; 
         Console.saveToFile(txt, f);
     }

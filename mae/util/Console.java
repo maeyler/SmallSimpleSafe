@@ -43,8 +43,9 @@ public class Console extends JFrame {
         CLEAR = "Clear", SAVE = "Save",
         TIP0 = "Copy and Drag", 
         TIP4 = "Copy/Paste and Drag/Drop",
-        ENAB = " are enabled here";
-    
+        ENAB = " are enabled here",
+        TXT_FLTR = "*.txt";
+
     /** Creates new singleton frame and starts redirection */
     private Console() {
         initComponents(); 
@@ -117,11 +118,13 @@ public class Console extends JFrame {
     
    /** Saves the contents into a text file */
    public boolean save() {
-      JFileChooser fileD = Scaler.fileChooser();   //V1.68
+      /*JFileChooser fileD = Scaler.fileChooser();   //V1.68
       int k = fileD.showSaveDialog(this);
       if (k != JFileChooser.APPROVE_OPTION) return false;
       File f = fileD.getSelectedFile();
-      if (!Console.confirm(f, this)) return false;
+      if (!Console.confirm(f, this)) return false;*/
+        File f = fileToSave(TXT_FLTR);
+        if (f == null) return false;
       return Console.saveToFile(text.getText(), f);
    }
 
@@ -228,6 +231,25 @@ public class Console extends JFrame {
         }
     }
     
+   static Frame NULL = null;  //might use Menu.frm, but it's not public
+   static FileDialog openD = new FileDialog(NULL, "Open", FileDialog.LOAD);
+   static FileDialog saveD = new FileDialog(NULL, "Save", FileDialog.SAVE);
+   static File selectFile(String filter, FileDialog D) {
+       if (filter != null) D.setFile(filter);
+       D.setVisible(true);
+       File[] fa = D.getFiles();
+       if (fa == null) return null;
+       return fa[0];
+   }
+   public static File fileToOpen(String filter) {
+       return selectFile(filter, openD);
+   }
+   public static File fileToSave(String filter) {
+       return selectFile(filter, saveD);
+   }
+   public static boolean dialogIsVisible() { 
+       return openD.isShowing() || saveD.isShowing();
+   }
    public static boolean confirm(File f, Component parent) {
       if (f == null || !f.exists()) return true;  
       String msg = f+" exists.\n"

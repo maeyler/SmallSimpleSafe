@@ -54,7 +54,8 @@ public class Fide extends JPanel implements mae.util.Editor {
    final Act stop = new Act(STOP);
    final Act again = new Act(AGAIN);
    final Ear ear = new Ear();
-   JFileChooser fileD;  // = Scaler.fileChooser();   V1.68
+   //JFileChooser fileD;  // = Scaler.fileChooser();   V1.68
+   String filter;
    final Map filters = new HashMap();
 
    public final static int 
@@ -163,15 +164,15 @@ public class Fide extends JPanel implements mae.util.Editor {
    }
    public void open() {
       confirmedSave();
-      fileD = Scaler.fileChooser();   //V1.68
-      //fileD.resetChoosableFileFilters();
+      //fileD = Scaler.fileChooser();   //V1.68
       if (file != null) {
-         fileD.setSelectedFile(file);
+         //fileD.setSelectedFile(file);
          setFileFilter();
       }
-      int k = fileD.showOpenDialog(this);
+      /*int k = fileD.showOpenDialog(this);
       if (k != JFileChooser.APPROVE_OPTION) return;
-      File f = fileD.getSelectedFile();
+      File f = fileD.getSelectedFile();*/
+      File f = Console.fileToOpen(filter);
       if (f == null || f.equals(file)) return;
       open(f);
    }
@@ -266,19 +267,23 @@ public class Fide extends JPanel implements mae.util.Editor {
    public void saveAs() { 
       String s = src.getText();
       if (s.equals("")) return;
-      fileD = Scaler.fileChooser();   //V1.68
+      //fileD = Scaler.fileChooser();   //V1.68
       if (file == null) {
          setFileFilter("java");
-         fileD.setSelectedFile(new File(".java"));
+         //fileD.setSelectedFile(new File(".java"));
       } else {
          setFileFilter();
-         fileD.setSelectedFile(file);
+         //fileD.setSelectedFile(file);
       }
-      int k = fileD.showSaveDialog(this);
+      /*int k = fileD.showSaveDialog(this);
       if (k != JFileChooser.APPROVE_OPTION) 
          throw new RuntimeException("save cancelled");
       File f = fileD.getSelectedFile();
       if (!Console.confirm(f, this)) return;
+      File f = Console.fileToSave(filter);
+      */
+      File f = Console.fileToOpen(filter);
+      if (f == null) return;
       Console.saveToFile(s, f);
       if (!s.equals(text) || !f.equals(file))
          setSource(s, f);
@@ -288,7 +293,8 @@ public class Fide extends JPanel implements mae.util.Editor {
       setFileFilter(SimpleFilter.extension(file));
    }
    void setFileFilter(String ext) { 
-      if (ext == null) return;
+      filter = "*."+ext;
+      /*if (ext == null) return;
       SimpleFilter f = (SimpleFilter)filters.get(ext);
       if (f != null) fileD.setFileFilter(f);
       else {
@@ -296,7 +302,7 @@ public class Fide extends JPanel implements mae.util.Editor {
          filters.put(ext, f);  //V1.65
          fileD.addChoosableFileFilter(f);
          fileD.setFileFilter(f);
-      }
+      }*/
    }
 
    /** Shows Find dialog and searches for the string entered */

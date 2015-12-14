@@ -13,6 +13,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import mae.util.TinyButton;
 import mae.util.Reporter;
+import mae.util.Console;
 
 public class Teacher implements Runnable {
    
@@ -145,7 +146,7 @@ public class Teacher implements Runnable {
 				return (w != D) && ((JDialog) w).isModal();
 			else throw new RuntimeException();
 		} catch (Exception x) {
-			return Chooser.fileD != null && Chooser.fileD.isShowing();
+			return Console.dialogIsVisible();
 		}
 	}
    void processMember(String s) {
