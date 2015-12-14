@@ -71,12 +71,9 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
     public boolean canCompile() {
         return (javac != null && source != null);
     }
-    public void compile() {
-        if (!canCompile())
-            throw new RuntimeException("not initialized");
-        prog = null;
-        new Comp().start();
-    }
+    public void compile() { compile(source, false); }
+    public void compileAll() { compile(source, true); }
+    
     public boolean readyToRun() {
         return (ready && source.exists() && target.exists() 
                 && source.lastModified() <= target.lastModified());
@@ -89,13 +86,10 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
         run(prog);
     }
 
-    public JMenu menu() {
-        return null;  //V1.65
-    }
+    public JMenu menu() { return null; }  //V1.65
     public static String getClassPath(File f) {
         String name;
         try {
-            //if (f.isDirectory()) name = f.getParent();
             name = new Name(f).getName();
         } catch (Exception x) {
             System.err.println(x);
@@ -110,25 +104,29 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
         System.out.println(name+ " in " +f.getParent());
         return f.getParent();
     }
-    public int compile(File f) {
-        if (javac == null) return -1;
-        String path = f.getAbsolutePath();
+    void compile(File f, boolean all) {
+        if (javac == null || !canCompile())
+            throw new RuntimeException("not initialized");
+        prog = null;
         String[] a = { "-cp", getClassPath(f), "-g" };
         //compiler options such as "-Xlint:unchecked" should be at a[0]
-        List<String> L = new ArrayList<>();
-        for (String s : a) L.add(s);
-        if (f.isDirectory()) {
-            for (String s : f.list()) 
-                if (s.endsWith(".java")) L.add(path+File.separator+s);
+        List<String> L = new ArrayList<>(Arrays.asList(a));
+        //for (String s : a) L.add(s);
+        if (all) {
+            final File p = f.getParentFile();
+            for (String s : p.list()) 
+                if (s.endsWith(".java")) L.add(p+File.separator+s);
         } else {
-            if (path.endsWith(".java")) L.add(path);
-            else throw new RuntimeException(f+" not a java file");
+            L.add(f.getAbsolutePath());
         }
+        new Comp(L.toArray(a)).start();
+    }
+    int compile(String[] a) { //called by class Comp
         System.out.print("javac ");
-        for (String s : L) System.out.print(s+" ");
+        for (String s : a) System.out.print(s+" ");
         System.out.println();
         try {
-            return (int)javac.invoke(null, (Object)L.toArray(a));
+            return (int)javac.invoke(null, (Object)a);
         } catch (Exception x) {
             edit.setMessage(x.getMessage()); return -1;
         }
@@ -165,6 +163,8 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
     }
 
     class Comp extends Thread {
+        String[] args;
+        Comp(String[] a) { args = a; }
         public void run() {
             edit.setMessage("compiling  " + source);
             long t = System.currentTimeMillis();
@@ -172,7 +172,7 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
             PrintStream err = System.err;
             System.setErr(System.out);
             ready = false;
-            int k = compile(source);
+            int k = compile(args);
             System.setErr(err);
             if (k == 0) {
                 loadTarget(); //ready = true;
@@ -180,13 +180,12 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
                 edit.setMessage("compiled in " + (t / 1000) + " sec", ready);
                 //System.err.println(target+" compiled "+ready);
             } else {
-                edit.setMessage("compiler error", false);
+                edit.setMessage("compiler error "+k, false);
             }
         }
     }
 
     static class Name extends StreamTokenizer {
-
         String name;
         Name(File f) throws IOException {
             super(new FileReader(f));

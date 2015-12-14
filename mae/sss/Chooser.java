@@ -72,15 +72,21 @@ public class Chooser {
 	    return ProxyMaker.class;
 	}
 	/** Pick your color using JColorChooser */
-	public static Color color(Color c) {  //V1.65
+	public static Color pickColor(Color c) {  //V1.65
 		return JColorChooser.showDialog(Menu.frm, "Choose your color", c);
 	}
-	/** Compiles a single java file or all java files in a folder */
-        public static int compile(File d) { //V2.02
+	/** 
+         * input: a single java file
+         * Compile all java files in its folder
+        */ 
+        public static void compileAll(File f) { //V2.02
+            if (!f.getName().endsWith(".java")) 
+                throw new RuntimeException(f+" not a java file");
             if (Fide.instance == null) Fide.main();
-            JavaSourceHandler h = new JavaSourceHandler();
-            h.setSource(d, Fide.instance);
-	    return h.compile(d);
+            Fide F = Fide.instance; F.open(f);
+            JavaSourceHandler h = (JavaSourceHandler)F.getHandler();  
+            //new JavaSourceHandler(); h.setSource(f, F);
+	    h.compileAll();
 	}
 	/** An array of all framed windows, including hidden ones */
 	public static Window[] windows() {  //V1.66
