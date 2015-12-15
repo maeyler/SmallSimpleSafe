@@ -572,7 +572,7 @@ public class Fide extends JPanel implements mae.util.Editor {
       
       Dimension dim = new Dimension(GAP, 0);
       bar.add(Box.createRigidArea(dim));
-      JLabel lab = new JLabel(Browser.version);
+      JLabel lab = new JLabel(mae.sss.SSS.version());
       lab.setForeground(BrowserPanel.verColor);
       lab.setFont(BrowserPanel.verFont);
       bar.add(lab);

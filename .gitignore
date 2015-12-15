@@ -4,7 +4,7 @@ SSS.exception
 
 # Windows image file caches
 Thumbs.db
-ehthumbs.db
+thumbs.db
 
 # Folder config file
 Desktop.ini

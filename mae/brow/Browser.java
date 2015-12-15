@@ -28,7 +28,7 @@ import mae.util.Scaler;
 
 public class Browser { 
 
-   public static String version = mae.sss.SSS.version;  //"Aug 2012 V1.65";
+   public static String version = mae.sss.SSS.version();  //"Aug 2012 V1.65";
    public static Browser instance;  //V1.52 (= SSS V1.64)
    PropertyManager pm;
    boolean exit;
