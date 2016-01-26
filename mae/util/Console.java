@@ -237,9 +237,10 @@ public class Console extends JFrame {
    static File selectFile(String filter, FileDialog D) {
        if (filter != null) D.setFile(filter);
        D.setVisible(true);
-       File[] fa = D.getFiles();
+       //File[] fa = D.getFiles();
+       String fa = D.getFile();
        if (fa == null) return null;
-       return fa[0];
+       return new File(D.getDirectory(), fa);  //fa[0];
    }
    public static File fileToOpen(String filter) {
        return selectFile(filter, openD);

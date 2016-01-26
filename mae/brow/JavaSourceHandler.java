@@ -111,7 +111,7 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
         prog = null;
         String[] a = { "-cp", getClassPath(f), "-g" };
         //compiler options such as "-Xlint:unchecked" should be at a[0]
-        List<String> L = new ArrayList<>(Arrays.asList(a));
+        List<String> L = new ArrayList<String>(Arrays.asList(a));
         //for (String s : a) L.add(s);
         if (all) {
             final File p = f.getParentFile();
@@ -127,7 +127,7 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
         for (String s : a) System.out.print(s+" ");
         System.out.println();
         try {
-            return (int)javac.invoke(null, (Object)a);
+            return (Integer)javac.invoke(null, (Object)a);
         } catch (Exception x) {
             edit.setMessage(x.getMessage()); return -1;
         }

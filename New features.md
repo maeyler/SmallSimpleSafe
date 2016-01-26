@@ -1,5 +1,10 @@
-## Conceptual version history
-Binary [version history](https://github.com/maeyler/SmallSimpleSafe/commits/master/sss.jar)
+## Version history
+
+### Binary version history is [here](https://github.com/maeyler/SmallSimpleSafe/commits/master/sss.jar)
+
+### V2.03  Jan 25, 2016
+* Shift-BackSpace deletes the item (same as DEL key)
+* Small window is relocated to make it visible under the teacher
 
 ### V2.02  Dec 15, 2015
 * `Chooser.compileAll()` in order to compile all files in a folder

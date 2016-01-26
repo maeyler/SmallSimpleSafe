@@ -1030,7 +1030,8 @@ public class Inspector {
             } else if (c == KeyEvent.VK_COMMA) {
                 renameSelection();
             } else if (c == KeyEvent.VK_BACK_SPACE) {
-                hist.backward();
+                if (e.isShiftDown()) removeSelection();
+                else hist.backward();
             }
         }
         public void keyPressed(KeyEvent e) {

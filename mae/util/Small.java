@@ -64,7 +64,7 @@ public class Small implements ListSelectionListener {
         frm = new JFrame(MSG);
         frm.setContentPane(pan); 
         frm.setDefaultCloseOperation(d);
-        frm.setLocation(90, 50);
+        frm.setLocation(100, 300);
         Scaler.scaleWindow(frm);  //frm.pack(); 
         frm.setVisible(true);
     }
