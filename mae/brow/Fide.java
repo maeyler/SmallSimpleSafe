@@ -282,7 +282,7 @@ public class Fide extends JPanel implements mae.util.Editor {
       if (!Console.confirm(f, this)) return;
       File f = Console.fileToSave(filter);
       */
-      File f = Console.fileToOpen(filter);
+      File f = Console.fileToSave(filter);
       if (f == null) return;
       Console.saveToFile(s, f);
       if (!s.equals(text) || !f.equals(file))

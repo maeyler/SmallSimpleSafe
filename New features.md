@@ -2,7 +2,8 @@
 
 ### Binary version history is [here](https://github.com/maeyler/SmallSimpleSafe/commits/master/sss.jar)
 
-### V2.03  Jan 25, 2016
+### V2.03  Jan 26, 2016
+* Compiled with Java 6
 * Shift-BackSpace deletes the item (same as DEL key)
 * Small window is relocated to make it visible under the teacher
 
