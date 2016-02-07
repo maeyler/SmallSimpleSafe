@@ -54,9 +54,8 @@ public class Fide extends JPanel implements mae.util.Editor {
    final Act stop = new Act(STOP);
    final Act again = new Act(AGAIN);
    final Ear ear = new Ear();
-   //JFileChooser fileD;  // = Scaler.fileChooser();   V1.68
    String filter;
-   final Map filters = new HashMap();
+   //final Map filters = new HashMap();
 
    public final static int 
       GAP = Scaler.scaledInt(4),  //used in BorderLayout
@@ -164,14 +163,7 @@ public class Fide extends JPanel implements mae.util.Editor {
    }
    public void open() {
       confirmedSave();
-      //fileD = Scaler.fileChooser();   //V1.68
-      if (file != null) {
-         //fileD.setSelectedFile(file);
-         setFileFilter();
-      }
-      /*int k = fileD.showOpenDialog(this);
-      if (k != JFileChooser.APPROVE_OPTION) return;
-      File f = fileD.getSelectedFile();*/
+      if (file != null) setFileFilter();
       File f = Console.fileToOpen(filter);
       if (f == null || f.equals(file)) return;
       open(f);
@@ -267,21 +259,11 @@ public class Fide extends JPanel implements mae.util.Editor {
    public void saveAs() { 
       String s = src.getText();
       if (s.equals("")) return;
-      //fileD = Scaler.fileChooser();   //V1.68
       if (file == null) {
          setFileFilter("java");
-         //fileD.setSelectedFile(new File(".java"));
       } else {
          setFileFilter();
-         //fileD.setSelectedFile(file);
       }
-      /*int k = fileD.showSaveDialog(this);
-      if (k != JFileChooser.APPROVE_OPTION) 
-         throw new RuntimeException("save cancelled");
-      File f = fileD.getSelectedFile();
-      if (!Console.confirm(f, this)) return;
-      File f = Console.fileToSave(filter);
-      */
       File f = Console.fileToSave(filter);
       if (f == null) return;
       Console.saveToFile(s, f);
@@ -294,15 +276,6 @@ public class Fide extends JPanel implements mae.util.Editor {
    }
    void setFileFilter(String ext) { 
       filter = "*."+ext;
-      /*if (ext == null) return;
-      SimpleFilter f = (SimpleFilter)filters.get(ext);
-      if (f != null) fileD.setFileFilter(f);
-      else {
-         f = new SimpleFilter(ext, "*."+ext);
-         filters.put(ext, f);  //V1.65
-         fileD.addChoosableFileFilter(f);
-         fileD.setFileFilter(f);
-      }*/
    }
 
    /** Shows Find dialog and searches for the string entered */

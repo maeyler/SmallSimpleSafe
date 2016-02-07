@@ -246,7 +246,7 @@ public class InspectorPanel extends JPanel {
         static final String
         HEAD = "<HTML><FONT size="+Scaler.HTML_SIZE+"> <CENTER>",
         TAIL = "</FONT>",
-        WEB2 = "http://mimoza.marmara.edu.tr/~maeyler/sss/",
+        WEB2 = "http://maeyler.github.io/SmallSimpleSafe/",
         SPL2 = HEAD+"<b>web:</b> "+ WEB2 +"<br>"
             +"<b>mail:</b> small.simple@gmail.com <br>" 
                         +"<b>Java version:</b> "+jVersion+TAIL,

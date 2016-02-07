@@ -6,25 +6,25 @@ h = new HashSet(); //--> []
 //Add a String
 h.add("A"); //--> true
 //Add another String
-h.add("S"); //--> true
+h.add("$$"); //--> true
 //Add an existing member
 //+You cannot
 h.add("A"); //--> false
 //Add another String
-h.add("I"); //--> true
+h.add("12"); //--> true
 //How many members?
 //+3
 h.size(); //--> 3
 //Does it contain "S"?  
 //+Yes
-h.contains("S"); //--> true
+h.contains("tt"); //--> false
 //Add another String
-h.add("K"); //--> true
+h.add("tt"); //--> true
 //Note that the order is not predictable 
 //as we add more members
-h.add("N"); //--> true
+h.add("P"); //--> true
 //Remove a member
-h.remove("I"); //--> true
+h.remove("$$"); //--> true
 //How many members now?
 //+4
 h.size(); //--> 4

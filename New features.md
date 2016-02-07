@@ -2,6 +2,10 @@
 
 ### Binary version history is [here](https://github.com/maeyler/SmallSimpleSafe/commits/master/sss.jar)
 
+### V2.04  Feb 07, 2016
+* GitHub web page on the Version dialog 
+* HashSet.teacher modified
+
 ### V2.03  Jan 26, 2016
 * Compiled with Java 6
 * Shift-BackSpace deletes the item (same as DEL key)
