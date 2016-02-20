@@ -1,1 +1,1 @@
-\java\JRE\jre6\bin\java -jar sss.jar
+\java\JRE\jre6\bin\java mae.sss.SSS
