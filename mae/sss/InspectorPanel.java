@@ -242,14 +242,16 @@ public class InspectorPanel extends JPanel {
         pm.setFont("font.large", getFont(2));
     }
 
-            static final String jVersion = System.getProperty("java.version");
+        static final String jVersion = System.getProperty("java.version");
+        static final String user_dir = System.getProperty("user.dir");
         static final String
         HEAD = "<HTML><FONT size="+Scaler.HTML_SIZE+"> <CENTER>",
         TAIL = "</FONT>",
         WEB2 = "http://maeyler.github.io/SmallSimpleSafe/",
-        SPL2 = HEAD+"<b>web:</b> "+ WEB2 +"<br>"
-            +"<b>mail:</b> small.simple@gmail.com <br>" 
-                        +"<b>Java version:</b> "+jVersion+TAIL,
+        SPL2 = HEAD + "<b>web:</b> "+ WEB2
+            +"<br><b>mail:</b> small.simple@gmail.com " 
+            +"<br><b>user.dir:</b> "+user_dir 
+            +"<br><b>Java version:</b> "+jVersion + TAIL,
         SPL3 = HEAD+"Started on "+TAIL,
         SPL4 = "(C)  Akif Eyler, "+SSS.version();
     static final Color 

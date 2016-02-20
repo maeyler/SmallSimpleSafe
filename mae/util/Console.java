@@ -118,14 +118,9 @@ public class Console extends JFrame {
     
    /** Saves the contents into a text file */
    public boolean save() {
-      /*JFileChooser fileD = Scaler.fileChooser();   //V1.68
-      int k = fileD.showSaveDialog(this);
-      if (k != JFileChooser.APPROVE_OPTION) return false;
-      File f = fileD.getSelectedFile();
-      if (!Console.confirm(f, this)) return false;*/
         File f = fileToSave(TXT_FLTR);
         if (f == null) return false;
-      return Console.saveToFile(text.getText(), f);
+        return Console.saveToFile(text.getText(), f);
    }
 
    /** This method is called from within the constructor to
@@ -234,19 +229,25 @@ public class Console extends JFrame {
    static Frame NULL = null;  //might use Menu.frm, but it's not public
    static FileDialog openD = new FileDialog(NULL, "Open", FileDialog.LOAD);
    static FileDialog saveD = new FileDialog(NULL, "Save", FileDialog.SAVE);
-   static File selectFile(String filter, FileDialog D) {
+   static File selectFile(File f, String filter, FileDialog D) {
+       if (f != null && f.exists()) D.setDirectory(f.getParent()); 
        if (filter != null) D.setFile(filter);
        D.setVisible(true);
-       //File[] fa = D.getFiles();
        String fa = D.getFile();
        if (fa == null) return null;
        return new File(D.getDirectory(), fa);  //fa[0];
    }
    public static File fileToOpen(String filter) {
-       return selectFile(filter, openD);
+       return selectFile(null, filter, openD);
+   }
+   public static File fileToOpen(File f, String filter) {
+       return selectFile(f, filter, openD);
    }
    public static File fileToSave(String filter) {
-       return selectFile(filter, saveD);
+       return selectFile(null, filter, saveD);
+   }
+   public static File fileToSave(File f, String filter) {
+       return selectFile(f, filter, saveD);
    }
    public static boolean dialogIsVisible() { 
        return openD.isShowing() || saveD.isShowing();

@@ -164,7 +164,7 @@ public class Fide extends JPanel implements mae.util.Editor {
    public void open() {
       confirmedSave();
       if (file != null) setFileFilter();
-      File f = Console.fileToOpen(filter);
+      File f = Console.fileToOpen(file, filter);
       if (f == null || f.equals(file)) return;
       open(f);
    }
@@ -260,11 +260,13 @@ public class Fide extends JPanel implements mae.util.Editor {
       String s = src.getText();
       if (s.equals("")) return;
       if (file == null) {
-         setFileFilter("java");
+         //setFileFilter("java");
+         filter = "*.java";
       } else {
-         setFileFilter();
+         //setFileFilter();
+         filter = file.getName();
       }
-      File f = Console.fileToSave(filter);
+      File f = Console.fileToSave(file, filter);
       if (f == null) return;
       Console.saveToFile(s, f);
       if (!s.equals(text) || !f.equals(file))
@@ -272,10 +274,7 @@ public class Fide extends JPanel implements mae.util.Editor {
       System.out.println(s.length()+" bytes saved");
    }
    void setFileFilter() { 
-      setFileFilter(SimpleFilter.extension(file));
-   }
-   void setFileFilter(String ext) { 
-      filter = "*."+ext;
+      filter = "*."+SimpleFilter.extension(file);
    }
 
    /** Shows Find dialog and searches for the string entered */

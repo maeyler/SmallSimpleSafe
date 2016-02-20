@@ -49,16 +49,6 @@ public class Scaler {
         System.err.printf("%s fonts and %s dimensions scaled \n", nF, nD);
     }
     
-    public static JFileChooser fileChooser() {
-        return new JFileChooser() {
-          protected JDialog createDialog(Component p) throws HeadlessException {
-             JDialog g = super.createDialog(p);
-             //g.setSize(ins.scaled(g.getSize()));
-             scaleComp(g); g.pack();
-             return g;
-          }
-        };
-    }
     public static float scaledFloat(float x) { return ins.scaled(x); }
     public static int scaledInt(int k) { return ins.scaled(k); }
     public static Font scaledFont(String name, int style, float size) {

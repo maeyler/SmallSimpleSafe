@@ -19,7 +19,6 @@ import javax.swing.*;
 import javax.swing.event.*;
 import mae.sss.InspectorPanel;
 import mae.util.PropertyManager;
-//import mae.util.VersionChecker;
 import mae.util.SimpleFilter;
 import mae.util.Console;
 import mae.util.Loader;
@@ -313,18 +312,24 @@ format.zip=zip,jar,0
       refresh(g);
    }
    void doSave() throws IOException {
-      JFileChooser fileD = Scaler.fileChooser();   //V1.68
+      //JFileChooser fileD = Scaler.fileChooser();   //V1.68
       File f = new File(path, file.getName());
-      fileD.setSelectedFile(f); 
+/*      fileD.setSelectedFile(f); 
       int k = fileD.showSaveDialog(pan);
       if (k != JFileChooser.APPROVE_OPTION) return;
       File g = fileD.getSelectedFile();
       if (g == null) return;
-      if (!Console.confirm(g, pan)) return;
+      if (!Console.confirm(g, pan)) return;*/
+      File g = Console.fileToSave(f, null);
       String cmd = pan.save.getText();
       copy(file, g); 
       System.out.println(cmd+" "+file+" to "+g);
       refresh(g);
+   }
+   void doRun() throws ClassNotFoundException {
+      JavaSourceHandler h = new JavaSourceHandler();
+      if (!h.setTarget(file)) return; 
+      h.loadTarget(); h.run(file);
    }
    void doOpen() throws IOException, ClassNotFoundException {
       String cmd = pan.open.getText();
@@ -339,8 +344,7 @@ format.zip=zip,jar,0
             Fide.instance.open(file);
       } else  if (cmd.equals(RUN)) {
          System.out.println(cmd+" "+file);
-         if (pan.current == pan.htm)
-            new JavaSourceHandler().run(file);
+         if (pan.current == pan.htm) doRun();
          else Loader.startJAR(file);
 //      } else  if (cmd.equals(VIEW)) {
 //         EvReader.open(file);  V1.66

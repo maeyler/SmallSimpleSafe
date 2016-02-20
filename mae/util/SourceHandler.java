@@ -8,7 +8,7 @@ package mae.util;
 
 import java.io.File;
 import java.lang.reflect.Method;
-import javax.swing.JFileChooser;
+import java.awt.FileDialog;
 
 /**
  * Handles source files for Fide
@@ -98,17 +98,15 @@ public abstract class SourceHandler {
 		File here = new File(jar).getAbsoluteFile();
 		File loc = (here.exists() || path == null) ? here : new File(path);
 		if (!loc.exists()) {
-			System.err.println(jar + " not found");
-			JFileChooser fc = new JFileChooser();
-			final char Q = '"';
-			String desc = "Please locate archive " + Q + jar + Q;
-			fc.setFileFilter(new SimpleFilter(jar, "", desc));
-			fc.setDialogTitle(desc);
-			int k = fc.showOpenDialog(d.getFrame());
-			if (k != JFileChooser.APPROVE_OPTION)
-				return null;
-			loc = fc.getSelectedFile();
-			//if (loc==null) return null;
+		    System.err.println(jar + " not found");
+		    final char Q = '"';
+		    String desc = "Please locate archive " + Q + jar + Q;
+		    FileDialog D = new FileDialog(Console.NULL, desc, FileDialog.LOAD);
+		    D.setDirectory(System.getProperty("java.home")); 
+		    D.setFile(jar); D.setVisible(true);
+		    String fa = D.getFile();
+		    if (fa == null) return null;
+		    loc = new File(D.getDirectory(), fa); 
 		}
 		//System.err.println(jar+" in "+loc);
 		try {

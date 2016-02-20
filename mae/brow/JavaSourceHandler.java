@@ -52,8 +52,12 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
         int k = s.lastIndexOf(".java");
         if (k < 0) return false;
         s = s.substring(0, k) + ".class";
-        target = new File(f.getParent(), s);
+        return setTarget(new File(f.getParent(), s));
+    }
+    public boolean setTarget(File t) {
+        target = t;
         ready = !target.exists() ? false : new ClassSummary(target).hasMain();
+        //if (ready) loadTarget();
         return canCompile();
     }
 
@@ -145,20 +149,21 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
             met = m;
         }
         public void run() {
+            System.err.println("run "+met);
             String s = "";
             try {
-                met.invoke(null, new Object[]{ARGS});
+                met.invoke(null, (Object)ARGS);
                 return;
             } catch (InvocationTargetException x) {
                 Throwable t = x.getTargetException();
                 t.printStackTrace(System.out); /*!!*/
                 if (edit != null)
                     edit.setMessage("" + t);
-                //edit.msg.setText(""+t);
-            } catch (IllegalAccessException x) {
+            } catch (Exception x) { //IllegalAccessException
                 if (edit != null)
                     edit.setMessage("main() is not accessible");
                 System.err.println(x);
+                x.printStackTrace();
             }
         }
     }

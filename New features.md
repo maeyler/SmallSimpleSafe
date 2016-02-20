@@ -2,8 +2,11 @@
 
 ### Binary version history is [here](https://github.com/maeyler/SmallSimpleSafe/commits/master/sss.jar)
 
-### V2.04  Feb 07, 2016
-* GitHub web page on the Version dialog 
+### V2.04  Feb 20, 2016
+* java files are removed from sss.jar
+* GitHub web page and user.dir on the Version dialog
+* JFileChooser eliminated completely -- use FileDialog 
+* Fide: FileDialog opens in the current folder
 * HashSet.teacher modified
 
 ### V2.03  Jan 26, 2016
