@@ -11,7 +11,7 @@ import mae.util.PropertyManager;
 
 public class SSS extends JFrame {
    
-   public static String version() { return "Feb 2016 V2.04"; }
+   public static String version() { return "Oct 2016 V2.05"; }
    public static final String title = "Small Simple Safe";
    public static SSS instance;
    static PropertyManager pm = new PropertyManager("mae", "SSS", SSS.class);
@@ -19,13 +19,13 @@ public class SSS extends JFrame {
    Inspector insp;
    InspectorPanel pan;
    String initCls;
-static Console cnsl;
+
    SSS() { 
       System.out.println("SSS begins "+new Date());
       //exit = (getFrames().length == 1);
       InspectorPanel.initSplash();  //V1.66
       UIManager.put("ToolTip.font", mae.brow.Fide.ITEM);  //V1.68
-       cnsl = Console.getInstance();
+      Console.getInstance();  
       setDefaultCloseOperation(DISPOSE_ON_CLOSE);
       pan = new InspectorPanel();
       insp = new Inspector(this, pan);
@@ -42,12 +42,9 @@ static Console cnsl;
       int W = Scaler.scaledInt(680);  //V1.68
       int H = Scaler.scaledInt(410);
       Dimension d = getToolkit().getScreenSize();
-      int x = d.width-W-100; //, y = d.height-H-20;
+      int x = d.width-W; //, y = d.height-H-20;
       setTitle(pm.getProperty("title", title));
-      //setBounds(pm.getBounds("frame", x, 0, W, H));
-setSize(W, H); 
-        setLocation(x, 100); 
-        cnsl.setLocation(x-W, 100); 
+      setBounds(pm.getBounds("frame", x, 0, W, H));
       initCls = pm.getProperty("init.class", "mae.util.Small");
       pan.loadProps(pm);
    }    

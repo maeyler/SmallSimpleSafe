@@ -21,7 +21,7 @@ public class InspectorPanel extends JPanel {
     JList left, middle, right;
     JTextField cmd, msg;
     JLabel cls, fld, mem;
-    JButton clear,callConsole;
+    JButton clear, console;
     JCheckBox dispAll;
     Font normal, italic;
     //boolean demo;
@@ -56,7 +56,7 @@ public class InspectorPanel extends JPanel {
         setFont(1, TTYP);
         setFont(2, LARGE);
     }
-    static JPanel flowPanel(Component c1, Component c2,Component c3) {
+    static JPanel flowPanel(Component c1, Component c2) {
         int c = FlowLayout.LEFT;
         JPanel p = new JPanel(new FlowLayout(c, 3 * GAP, 0));
         p.setOpaque(false);
@@ -64,8 +64,6 @@ public class InspectorPanel extends JPanel {
             p.add(c1);
         if (c2 != null)
             p.add(c2);
-        if (c3 != null)
-            p.add(c3);
         return p;
     }
     JPanel topPanel() {
@@ -75,12 +73,12 @@ public class InspectorPanel extends JPanel {
         cls.setName("Classes");
         cls.setForeground(Color.black);
         cls.setToolTipText("Class=Green  Object=Yellow");
-callConsole=new TinyButton("Console");
-        callConsole.setMnemonic('o');
+        console = new TinyButton("Console");
+        console.setMnemonic('o');
         clear = new TinyButton("Clear");
         clear.setMnemonic('C');
         clear.setToolTipText("Clear Classes or Objects");
-        top.add(flowPanel(cls, clear,callConsole));
+        top.add(flowPanel(cls, clear));
         fld = new JLabel("Fields");
         fld.setName("Fields");
         fld.setForeground(Color.black);
@@ -93,7 +91,7 @@ callConsole=new TinyButton("Console");
                 + "<BR>*** <B>FOR EXPERT USE</B> ***";
         dispAll.setToolTipText(m0 + m1);
         //if (!demo)
-            top.add(flowPanel(fld, dispAll,null));
+        top.add(flowPanel(fld, dispAll));
         //String m2 = (demo ? "Fields, " : "") + "Methods";
         //String m3 = demo ? "Members" : "Methods";
         String m5 = "<BR><I>Inherited members are shown in italic</I>";
@@ -102,7 +100,7 @@ callConsole=new TinyButton("Console");
         mem = new JLabel("Public Methods");;
         mem.setName("Methods");
         mem.setForeground(Color.black);
-        top.add(flowPanel(mem, null,null));
+        top.add(flowPanel(mem, console));
         return top;
     }
     JPanel mainPanel() {
@@ -153,8 +151,8 @@ callConsole=new TinyButton("Console");
         right.addKeyListener(e);
         msg.addKeyListener(e);
         cmd.addActionListener(e);
-callConsole.addActionListener(e);
-        callConsole.addKeyListener(e);
+        console.addActionListener(e);
+        console.addKeyListener(e);
         clear.addActionListener(e);
         clear.addKeyListener(e);
         dispAll.addItemListener(e);
@@ -197,7 +195,7 @@ callConsole.addActionListener(e);
         switch (k) {
             case 0 :
                 clear.setFont(f);
-callConsole.setFont(f);
+                console.setFont(f);
                 dispAll.setFont(f);
                 left.setFont(f);
                 middle.setFont(f);
