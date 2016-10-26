@@ -993,6 +993,13 @@ public class Inspector {
             Object src = e.getSource();
             if (src == panel.clear)
                 clearPanel();
+else if (src==panel.callConsole){
+               if(SSS.cnsl.isVisible()==true)
+                   SSS.cnsl.setState(Frame.NORMAL);
+                else
+                  SSS.cnsl.setVisible(true);
+           
+            }
             else if (src == panel.cmd) {
                 String s = e.getActionCommand();
                 if (objectSelected)

@@ -21,7 +21,7 @@ public class InspectorPanel extends JPanel {
     JList left, middle, right;
     JTextField cmd, msg;
     JLabel cls, fld, mem;
-    JButton clear;
+    JButton clear,callConsole;
     JCheckBox dispAll;
     Font normal, italic;
     //boolean demo;
@@ -56,14 +56,16 @@ public class InspectorPanel extends JPanel {
         setFont(1, TTYP);
         setFont(2, LARGE);
     }
-    static JPanel flowPanel(Component c1, Component c2) {
+    static JPanel flowPanel(Component c1, Component c2,Component c3) {
         int c = FlowLayout.LEFT;
-        JPanel p = new JPanel(new FlowLayout(c, 2 * GAP, 0));
+        JPanel p = new JPanel(new FlowLayout(c, 3 * GAP, 0));
         p.setOpaque(false);
         if (c1 != null)
             p.add(c1);
         if (c2 != null)
             p.add(c2);
+        if (c3 != null)
+            p.add(c3);
         return p;
     }
     JPanel topPanel() {
@@ -73,10 +75,12 @@ public class InspectorPanel extends JPanel {
         cls.setName("Classes");
         cls.setForeground(Color.black);
         cls.setToolTipText("Class=Green  Object=Yellow");
+callConsole=new TinyButton("Console");
+        callConsole.setMnemonic('o');
         clear = new TinyButton("Clear");
         clear.setMnemonic('C');
         clear.setToolTipText("Clear Classes or Objects");
-        top.add(flowPanel(cls, clear));
+        top.add(flowPanel(cls, clear,callConsole));
         fld = new JLabel("Fields");
         fld.setName("Fields");
         fld.setForeground(Color.black);
@@ -89,7 +93,7 @@ public class InspectorPanel extends JPanel {
                 + "<BR>*** <B>FOR EXPERT USE</B> ***";
         dispAll.setToolTipText(m0 + m1);
         //if (!demo)
-            top.add(flowPanel(fld, dispAll));
+            top.add(flowPanel(fld, dispAll,null));
         //String m2 = (demo ? "Fields, " : "") + "Methods";
         //String m3 = demo ? "Members" : "Methods";
         String m5 = "<BR><I>Inherited members are shown in italic</I>";
@@ -98,7 +102,7 @@ public class InspectorPanel extends JPanel {
         mem = new JLabel("Public Methods");;
         mem.setName("Methods");
         mem.setForeground(Color.black);
-        top.add(flowPanel(mem, null));
+        top.add(flowPanel(mem, null,null));
         return top;
     }
     JPanel mainPanel() {
@@ -149,6 +153,8 @@ public class InspectorPanel extends JPanel {
         right.addKeyListener(e);
         msg.addKeyListener(e);
         cmd.addActionListener(e);
+callConsole.addActionListener(e);
+        callConsole.addKeyListener(e);
         clear.addActionListener(e);
         clear.addKeyListener(e);
         dispAll.addItemListener(e);
@@ -191,6 +197,7 @@ public class InspectorPanel extends JPanel {
         switch (k) {
             case 0 :
                 clear.setFont(f);
+callConsole.setFont(f);
                 dispAll.setFont(f);
                 left.setFont(f);
                 middle.setFont(f);
