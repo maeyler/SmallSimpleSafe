@@ -985,20 +985,18 @@ public class Inspector {
         }
     }
 
-    class Ear implements    KeyListener,
-        ItemListener,
-        ActionListener,
-        ListSelectionListener {
+    class Ear implements KeyListener, ItemListener,
+        ActionListener, ListSelectionListener {
 
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
-            if (src == panel.clear) {
+            if (src == panel.clear) 
                 clearPanel();
-            } else if (src == panel.console) {
-                Frame c = Console.getInstance();
-                if (!c.isVisible()) c.setVisible(true);
-                c.setState(Frame.NORMAL); c.toFront();
-            } else if (src == panel.cmd) {
+            if (src == panel.console) 
+                Menu.console();
+            if (src == panel.editor) 
+                Menu.editor();
+            else if (src == panel.cmd) {
                 String s = e.getActionCommand();
                 if (objectSelected)
                     invoke(obj, s);

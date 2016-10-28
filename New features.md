@@ -2,6 +2,9 @@
 
 ### Binary version history is [here](https://github.com/maeyler/SmallSimpleSafe/commits/master/sss.jar)
 
+### V2.05  Oct 28, 2016
+* Console and Editor buttons added
+
 ### V2.04  Feb 20, 2016
 * java files are removed from sss.jar
 * GitHub web page and user.dir on the Version dialog

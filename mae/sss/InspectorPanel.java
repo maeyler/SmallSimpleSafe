@@ -21,7 +21,7 @@ public class InspectorPanel extends JPanel {
     JList left, middle, right;
     JTextField cmd, msg;
     JLabel cls, fld, mem;
-    JButton clear, console;
+    JButton clear, console, editor, browser;
     JCheckBox dispAll;
     Font normal, italic;
     //boolean demo;
@@ -56,15 +56,20 @@ public class InspectorPanel extends JPanel {
         setFont(1, TTYP);
         setFont(2, LARGE);
     }
-    static JPanel flowPanel(Component c1, Component c2) {
-        int c = FlowLayout.LEFT;
-        JPanel p = new JPanel(new FlowLayout(c, 3 * GAP, 0));
+    static JPanel flowPanel(Component... ca) {
+        JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, 3*GAP, 0));
         p.setOpaque(false);
-        if (c1 != null)
-            p.add(c1);
-        if (c2 != null)
-            p.add(c2);
+        for (Component c : ca)
+            if (c != null) p.add(c);
         return p;
+    }
+    static JButton newButton(String s) {
+        return newButton(s.substring(0,1), s.charAt(0), "Display "+s);
+    }
+    static JButton newButton(String n, char c, String s) {
+        JButton b = new TinyButton(n);
+        b.setMnemonic(c); b.setToolTipText(s);
+        return b;
     }
     JPanel topPanel() {
         JPanel top = new JPanel(new GridLayout(1, 3, GAP, 0));
@@ -73,12 +78,11 @@ public class InspectorPanel extends JPanel {
         cls.setName("Classes");
         cls.setForeground(Color.black);
         cls.setToolTipText("Class=Green  Object=Yellow");
-        console = new TinyButton("Console");
-        console.setMnemonic('o');
-        clear = new TinyButton("Clear");
-        clear.setMnemonic('C');
-        clear.setToolTipText("Clear Classes or Objects");
-        top.add(flowPanel(cls, clear));
+        clear = newButton("Clear", 'l', "Clear Classes or Objects");
+        console = newButton("Console");
+        editor  = newButton("Editor");
+        //browser = newButton("Browser");
+        top.add(flowPanel(cls, clear));  //
         fld = new JLabel("Fields");
         fld.setName("Fields");
         fld.setForeground(Color.black);
@@ -90,17 +94,14 @@ public class InspectorPanel extends JPanel {
         String m1 = "Display all fields, public & private"
                 + "<BR>*** <B>FOR EXPERT USE</B> ***";
         dispAll.setToolTipText(m0 + m1);
-        //if (!demo)
         top.add(flowPanel(fld, dispAll));
-        //String m2 = (demo ? "Fields, " : "") + "Methods";
-        //String m3 = demo ? "Members" : "Methods";
         String m5 = "<BR><I>Inherited members are shown in italic</I>";
         objTip = m0 + "Public Methods" + m5;
         clsTip = m0 + "Static Methods" + ", Constructors, Identities" + m5;
         mem = new JLabel("Public Methods");;
         mem.setName("Methods");
         mem.setForeground(Color.black);
-        top.add(flowPanel(mem, console));
+        top.add(flowPanel(mem, console, editor));  //, browser
         return top;
     }
     JPanel mainPanel() {
@@ -151,10 +152,12 @@ public class InspectorPanel extends JPanel {
         right.addKeyListener(e);
         msg.addKeyListener(e);
         cmd.addActionListener(e);
-        console.addActionListener(e);
-        console.addKeyListener(e);
         clear.addActionListener(e);
         clear.addKeyListener(e);
+        console.addActionListener(e);
+        console.addKeyListener(e);
+        editor.addActionListener(e);
+        editor.addKeyListener(e);
         dispAll.addItemListener(e);
         dispAll.addKeyListener(e);
     }
@@ -196,6 +199,7 @@ public class InspectorPanel extends JPanel {
             case 0 :
                 clear.setFont(f);
                 console.setFont(f);
+                editor.setFont(f);
                 dispAll.setFont(f);
                 left.setFont(f);
                 middle.setFont(f);
@@ -204,8 +208,7 @@ public class InspectorPanel extends JPanel {
                 normal = f;
                 break;
             case 1 :
-                //if (!demo)
-                    Console.setTextFont(f);
+                Console.setTextFont(f);
                 cmd.setFont(f);
                 break;
             case 2 :
