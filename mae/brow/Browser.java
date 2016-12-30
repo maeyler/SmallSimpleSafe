@@ -7,7 +7,7 @@
 //MVC    29.12.03  simplified, history
 //        25.3.12  instance and main() 
 //scale   22.3.15
-
+//       30.12.16  use Desktop to open files
 
 package mae.brow;
 
@@ -338,21 +338,15 @@ format.zip=zip,jar,0
          mouseOn = null;
          pan.htm.setToolTipText(null); 
       } else if (cmd.equals(EDIT)) {
-         //if (fide == null) fide = Fide.main();
-         //fide.open(file);
          if (Fide.instance == null) Fide.main();
             Fide.instance.open(file);
       } else  if (cmd.equals(RUN)) {
          System.out.println(cmd+" "+file);
          if (pan.current == pan.htm) doRun();
          else Loader.startJAR(file);
-//      } else  if (cmd.equals(VIEW)) {
-//         EvReader.open(file);  V1.66
       } else  if (cmd.equals(OPEN)) {
-         String s = "runthis "+file;
-         System.out.println(s); 
-         Runtime rt = Runtime.getRuntime();
-         Process p = rt.exec(s);
+         java.awt.Desktop.getDesktop().open(file);
+         System.out.println("Open "+file); 
       }
    }
    static void copy(File f1, File f2) throws IOException {
