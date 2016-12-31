@@ -92,6 +92,7 @@ public class BrowserPanel extends JSplitPane {
       fix.setToolTipText("Actual date taken (internal Exif data) -- ALT-X to fix");
       fix.setMnemonic('X');
       fix.setVisible(false);
+      Scaler.scaleComp(fix); //V2.06
       infoPan.add(fix, "South");
 
       JPanel top = new JPanel(new BorderLayout(GAP+2, 0));
@@ -217,6 +218,8 @@ public class BrowserPanel extends JSplitPane {
       rotL.addKeyListener(ear);
       rotR.addActionListener(ear);
       rotR.addKeyListener(ear);
+      fix.addKeyListener(ear);  //V2.06
+      fix.addActionListener(ear);
    }
 //============================================================
    public void paint(Graphics g) {
@@ -231,11 +234,6 @@ public class BrowserPanel extends JSplitPane {
       int x = wid - w - 2*GAP;
       g.drawString(Browser.version, x-2, verHeight+2);
    }
-   /*final static String 
-      JVM = System.getProperty("java.version"),
-      FONT = (JVM.compareTo("1.4")>0)? "" : 
-           "<font face=SansSerif color=black size=-1>",
-      HTML = ; */
    static String prefix(String s) {
       int n = s.length();
       if (n > MAX) 
@@ -259,19 +257,10 @@ public class BrowserPanel extends JSplitPane {
       open.setEnabled(true);
       String d = prefix(f.toString())+size+" &nbsp;&nbsp;&nbsp; ";
       fileL.setText(d + form.format(new Date(f.lastModified())));
-      String type;  //= "Content-type: "
-      try {
-         URLConnection c = f.toURL().openConnection();
-         type = c.getContentType();
-         c.getInputStream().close();
-      } catch (Exception x) {
-         type = "???";
-      }
-      contL.setText("   "+type);
+      contL.setText("   "+fileType(f));  //V2.06
       return size;
    }
    String fileType(File f) { //V1.67
-      //String type = "Content-type: "
       try {
          fix.setVisible(false); meta = null;
          URLConnection c = f.toURL().openConnection();
@@ -279,7 +268,8 @@ public class BrowserPanel extends JSplitPane {
          if (!type.startsWith("image")) return type;
          meta = new Metadata(f);
          long t = meta.getTime();
-      System.err.printf("fileType %s --> %s \n"+f, type);
+      //V2.06 -- silent bug corrected: (plus -> comma)
+      System.err.printf("fileType %s --> %s \n", f, type);
          if (t <= 0) return type;
          fix.setText(timeToString(t));
          fix.setEnabled(!meta.correctTime());
@@ -287,6 +277,7 @@ public class BrowserPanel extends JSplitPane {
          c.getInputStream().close();
          return type;
       } catch (Exception x) {
+         //System.err.println(x);  //V2.06 found the bug!
          return "???";
       }
    }
