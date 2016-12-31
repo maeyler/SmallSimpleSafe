@@ -2,8 +2,12 @@
 
 ### Binary version history is [here](https://github.com/maeyler/SmallSimpleSafe/commits/master/sss.jar)
 
+### V2.06  Dec 31, 2016
+* Use java.awt.Desktop to open files (idea by F Yilmaz)
+* "Fix Date" button for JPG files in Browser
+
 ### V2.05  Oct 28, 2016
-* Console and Editor buttons added
+* Console and Editor buttons added (contribution by F Yilmaz)
 
 ### V2.04  Feb 20, 2016
 * java files are removed from sss.jar
