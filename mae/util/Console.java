@@ -53,7 +53,7 @@ public class Console extends JFrame {
         PropertyManager.setIcon(this, "console.gif");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         loadProps();
-        start(); 
+        //start();   called by SSS  V2.07
         //setVisible(true);  handled by start()
     }
     
@@ -76,7 +76,10 @@ public class Console extends JFrame {
     }
 
     /** Redirects system input/output */
-    public void start() {
+    public static void start() {
+        if (cons.closed()) getInstance(); cons.startNow();
+    }
+    void startNow() {
         if (!closed())
             throw new RuntimeException("Console is already open");
         System.out.println();  //printed on current stream
@@ -99,6 +102,9 @@ public class Console extends JFrame {
         setButtons(false);
     }
 
+    public static boolean isClosed() {
+        return (cons == null || cons.closed());
+    }    
     boolean closed() {
         return (out == null && in == null);
     }    
@@ -211,7 +217,7 @@ public class Console extends JFrame {
     class Ear implements ActionListener, ItemListener {
         public void actionPerformed(ActionEvent evt) {
             String cmd = evt.getActionCommand();
-            if (cmd.equals(START)) start();
+            if (cmd.equals(START)) startNow();
             else if (cmd.equals(RESET)) reset();
             else if (cmd.equals(CLEAR)) text.setText("");
             else if (cmd.equals(SAVE)) save();

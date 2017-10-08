@@ -34,13 +34,19 @@ public class Menu {
     public static Class chooser() throws ClassNotFoundException {
         return Class.forName("mae.sss.Chooser");
     }
+    /** Display System.class */
+    public static Class system() {  //V2.07
+        return System.class;
+    }
+ 
     static void showFrame(Frame c) {
         if (!c.isVisible()) c.setVisible(true);
         c.setState(Frame.NORMAL); c.toFront();
     }
     /** Displays the Console, if hidden */
-    public static Class console() {  //V2.05
+    static Class console() {  //V2.05
         showFrame(Console.getInstance());
+        Console.start();  //V2.07
         return null;
     }
     /** Opens Fide as the editor */

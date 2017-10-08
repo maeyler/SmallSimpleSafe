@@ -11,7 +11,7 @@ import mae.util.PropertyManager;
 
 public class SSS extends JFrame {
    
-   public static String version() { return "Dec 2016 V2.06"; }
+   public static String version() { return "Dec 2016 V2.07"; }
    public static final String title = "Small Simple Safe";
    public static SSS instance;
    static PropertyManager pm = new PropertyManager("mae", "SSS", SSS.class);
@@ -26,6 +26,7 @@ public class SSS extends JFrame {
       InspectorPanel.initSplash();  //V1.66
       UIManager.put("ToolTip.font", mae.brow.Fide.ITEM);  //V1.68
       Console.getInstance();  
+      if (System.console() == null) Console.start(); //V2.07 
       setDefaultCloseOperation(DISPOSE_ON_CLOSE);
       pan = new InspectorPanel();
       insp = new Inspector(this, pan);

@@ -46,7 +46,7 @@ public class Scaler {
     public void scale(Component c) {
         nF = 0;  nD = 0;
         scaleComponent(c);
-        System.err.printf("%s fonts and %s dimensions scaled \n", nF, nD);
+        //System.err.printf("%s fonts and %s dimensions scaled \n", nF, nD);
     }
     
     public static float scaledFloat(float x) { return ins.scaled(x); }

@@ -34,7 +34,7 @@ public class Loader extends URLClassLoader {
       super(new URL[] {u});  
       count++; id = count; //url = u; 
       time = System.currentTimeMillis();
-      System.err.println(id()+" new Loader "+u);
+      //System.err.println(id()+" new Loader "+u);
    }
    public Loader(File f) throws MalformedURLException {
       this(f.toURL());  
@@ -88,11 +88,11 @@ public class Loader extends URLClassLoader {
       //System.err.println("load "+name+" from "+s);
       return c;
    }
-   protected void finalize() throws Throwable {
+/* protected void finalize() throws Throwable {  V2.07 romoved
       //if (listOfClasses(this).size() > 0)
       System.err.println(id()+" finalize "+this);
       super.finalize();
-   }
+   }*/
    public void addURL(URL u) {
       URL[] a = getURLs();
       for (int i=0; i<a.length; i++) 

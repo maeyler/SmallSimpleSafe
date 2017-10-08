@@ -2,6 +2,10 @@
 
 ### Binary version history is [here](https://github.com/maeyler/SmallSimpleSafe/commits/master/sss.jar)
 
+### V2.07  Oct 8, 2017
+* Add Menu.system() that returns Sytem.class
+* Use system console when invoked from terminal
+
 ### V2.06  Dec 31, 2016
 * Use java.awt.Desktop to open files (idea by F Yilmaz)
 * "Fix Date" button for JPG files in Browser
