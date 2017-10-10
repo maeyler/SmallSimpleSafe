@@ -1,5 +1,5 @@
 /*
- * Test.java
+ * Console.java
  *
  * Created on July 23, 2003, 2:05 PM
  */
@@ -179,7 +179,7 @@ public class Console extends JFrame {
         //System.err.println(f);
         Font g = pm.getFont("font", f);
         text.setFont(g);
-        System.err.println(g);
+        //System.err.println(g);
     }    
 
     void saveProps() {

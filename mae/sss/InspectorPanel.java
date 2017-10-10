@@ -15,7 +15,8 @@ import mae.util.Scaler;
 
 public class InspectorPanel extends JPanel {
 
-    static Window splash, about;  //two distinct variables V1.66
+    static Window about;   //V2.07 splash removed
+    //static Window splash, about;  two distinct variables V1.66
     static JLabel label;
     JScrollPane drop;
     JList left, middle, right;
@@ -267,7 +268,7 @@ public class InspectorPanel extends JPanel {
         //was Color.green; before V1.65
         static final long time = System.currentTimeMillis();
         static final Date date = new Date(time);
-    static void disposeSplash() {  //V1.66
+/*  static void disposeSplash() {  //V1.66
                 splash.dispose(); splash = null; //for gc() to work
         }
     static void initSplash() { //a quick Frame shown while starting
@@ -296,7 +297,7 @@ public class InspectorPanel extends JPanel {
             Thread.sleep(10); //give time to paint splash screen
         } catch (InterruptedException x) {
         }
-    }
+    } V2.07 */
     public static void makeAboutDlg(JFrame f) {  //simplified V1.66
         JDialog sp = new JDialog(f, "About SSS");
         JPanel p = new JPanel();

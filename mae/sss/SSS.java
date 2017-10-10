@@ -1,4 +1,4 @@
-//M A Eyler 
+//M A Eyler 2002
 
 package mae.sss;
 
@@ -11,7 +11,7 @@ import mae.util.PropertyManager;
 
 public class SSS extends JFrame {
    
-   public static String version() { return "Dec 2016 V2.07"; }
+   public static String version() { return "Oct 2017 V2.07a"; }
    public static final String title = "Small Simple Safe";
    public static SSS instance;
    static PropertyManager pm = new PropertyManager("mae", "SSS", SSS.class);
@@ -20,13 +20,12 @@ public class SSS extends JFrame {
    InspectorPanel pan;
    String initCls;
 
-   SSS() { 
-      System.out.println("SSS begins "+new Date());
-      //exit = (getFrames().length == 1);
-      InspectorPanel.initSplash();  //V1.66
-      UIManager.put("ToolTip.font", mae.brow.Fide.ITEM);  //V1.68
-      Console.getInstance();  
+   SSS() {
+      Console.getInstance(); 
       if (System.console() == null) Console.start(); //V2.07 
+      System.out.printf("SSS begins %s%n", new Date());
+      //InspectorPanel.initSplash();  //V1.66 added, V2.07 removed
+      UIManager.put("ToolTip.font", mae.brow.Fide.ITEM);  //V1.68
       setDefaultCloseOperation(DISPOSE_ON_CLOSE);
       pan = new InspectorPanel();
       insp = new Inspector(this, pan);
@@ -36,7 +35,7 @@ public class SSS extends JFrame {
       insp.clearPanel(); 
       insp.inspectClass(initCls); setVisible(true);
       InspectorPanel.makeAboutDlg(this);
-      InspectorPanel.disposeSplash();  //V1.66 
+      //InspectorPanel.disposeSplash();  //V1.66 added, V2.07 removed 
    }
    
    void loadProps() {  //(String name) {

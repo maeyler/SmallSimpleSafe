@@ -1,8 +1,5 @@
-// 25.3.12  V1.64 combined with brow.jar -- instance and main() added
-// 26.8.12  class chooser is centered; Menu.toFrame() --> toWindow();
-//   V1.65  version() shows up time; simplify stack trace (Reporter)
-
 package mae.sss;
+
 import java.io.*;
 import java.util.*;
 import java.awt.*;

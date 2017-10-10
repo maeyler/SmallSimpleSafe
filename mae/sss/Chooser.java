@@ -1,10 +1,3 @@
-// from TreePanel 9.3.2003
-// into mae.util 15.1.2004
-// simplify      18.5
-// replace More  23.5
-// ClassChooser --> Chooser       4.6
-// JVM1.5: ignore '+'
-
 package mae.sss;
 
 import java.io.File;
@@ -365,7 +358,6 @@ public class Chooser {
 		//Collections.sort(top);
 	}
 	void readZipFile(ZipFile f) {
-		System.out.println("in " + f.getName() + ":");
 		long time = System.currentTimeMillis();
 		count = 0;
 		int numPack = cls.size();
@@ -377,10 +369,13 @@ public class Chooser {
 				addToMap(z.getName());
 		}
 		makeTopList();
+		time = (System.currentTimeMillis() - time);
+		//if (count == 0) return;
+		System.out.printf("in %s:%n", f.getName());
 		String t = (cls.size() - numPack) + " packages and " + count
 				+ " classes available";
-		time = (System.currentTimeMillis() - time);
-		System.out.println(t + "  (" + time + "msec)");
+		if (time > 2) t += "  (" + time + "msec)";
+		System.out.println(t);
 	}
 
 	class Dialog extends JDialog {
