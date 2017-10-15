@@ -238,19 +238,18 @@ public class Console extends JFrame {
    static File selectFile(File f, String filter, FileDialog D) {
        if (f != null && f.exists()) D.setDirectory(f.getParent()); 
        if (filter != null) {
-                D.setFile(filter); //filter for Windows
-                String[] filters = filter.replaceAll("\\*","").split(";");
-                D.setFilenameFilter(new FilenameFilter() { //filter for Unix based operating systems
-                                            @Override
-                                            public boolean accept(File dir, String name){
-                                                    for (String f: filters)
-                                                            if( name.endsWith(f) )
-                                                                    return true;
-                                                    return false;
-
-                                            }
-                                    });
-        }
+           D.setFile(filter); //filter for Windows
+           final String[] filters = filter.replaceAll("\\*","").split(";");
+           D.setFilenameFilter(new FilenameFilter() { 
+           //filter for Unix based operating systems
+                   @Override
+                   public boolean accept(File dir, String name){
+                   for (String f: filters)
+                       if (name.endsWith(f)) return true;
+                       return false;
+                   }
+           });
+       }
        D.setVisible(true);
        String fa = D.getFile();
        if (fa == null) return null;

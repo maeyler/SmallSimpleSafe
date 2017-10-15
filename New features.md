@@ -2,7 +2,8 @@
 
 ### Binary version history is [here](https://github.com/maeyler/SmallSimpleSafe/commits/master/sss.jar)
 
-### V2.07  Oct 8, 2017
+### V2.07  Oct 15, 2017
+* FileDialog filters correctly in Unix (contribution by B E Harmansa)
 * Add `Menu.system()` that returns Sytem.class
 * Use system console when invoked from terminal
 * Splash panel removed
