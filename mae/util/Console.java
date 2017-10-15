@@ -237,7 +237,7 @@ public class Console extends JFrame {
    static FileDialog saveD = new FileDialog(NULL, "Save", FileDialog.SAVE);
    static File selectFile(File f, String filter, FileDialog D) {
        if (f != null && f.exists()) D.setDirectory(f.getParent()); 
-       if (filter != null) {
+       if (filter != null) { //contribution by B E Harmansa
            D.setFile(filter); //filter for Windows
            final String[] filters = filter.replaceAll("\\*","").split(";");
            D.setFilenameFilter(new FilenameFilter() { 
