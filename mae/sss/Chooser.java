@@ -30,9 +30,9 @@ public class Chooser {
 
 	static Chooser classD;
 	static FontDialog fontD;
-	static File lastDir;  
-	static final String //SimpleFilter 
-		CLASS_FLTR = "*class", JAR_FLTR = "*jar", 
+	static File lastDir;
+	static final String //SimpleFilter
+		CLASS_FLTR = "*class", JAR_FLTR = "*jar",
 	        TEACH_FLTR = "*.teacher;*.txt";
         static final Runtime RT = Runtime.getRuntime();
 
@@ -50,16 +50,16 @@ public class Chooser {
 	public static Color pickColor(Color c) {  //V1.65
 		return JColorChooser.showDialog(Menu.frm, "Choose your color", c);
 	}
-	/** 
+	/**
          * input: a single java file
          * Compile all java files in its folder
-        */ 
+        */
         public static void compileAll(File f) { //V2.02
-            if (!f.getName().endsWith(".java")) 
+            if (!f.getName().endsWith(".java"))
                 throw new RuntimeException(f+" not a java file");
             if (Fide.instance == null) Fide.main();
             Fide F = Fide.instance; F.open(f);
-            JavaSourceHandler h = (JavaSourceHandler)F.getHandler();  
+            JavaSourceHandler h = (JavaSourceHandler)F.getHandler();
             //new JavaSourceHandler(); h.setSource(f, F);
 	    h.compileAll();
 	}
@@ -98,14 +98,14 @@ public class Chooser {
 	}
 	/** Starts a Teacher session from a File */
 	public static Class runTeacher() {
-		File f = Console.fileToOpen(TEACH_FLTR); 
+		File f = Console.fileToOpen(TEACH_FLTR);
 		if (f != null) Teacher.start(f);
 		return null;
 	}
 	/**
 	 * Shows a dialog to choose a java class <BR>
 	 * (classes that begin with java and javax can be chosen).
-	 * 
+	 *
 	 * @throws ClassNotFoundException
 	 */
 	public static Class systemClass() throws ClassNotFoundException {
@@ -114,7 +114,7 @@ public class Chooser {
 	/**
 	 * Chooses system class by name <BR>
 	 * (searching java classes, extensions, and the class path)
-	 * 
+	 *
 	 * @throws ClassNotFoundException
 	 */
 	public static Class systemClass(String name) throws ClassNotFoundException {
@@ -128,7 +128,7 @@ public class Chooser {
 	/**
 	 * Shows standard file chooser to choose a class file. Choosing a loaded
 	 * class will load the new version, if modified since last loading
-	 * 
+	 *
 	 * @throws ClassNotFoundException
 	 */
 	public static Class loadClass() throws ClassNotFoundException {
@@ -142,45 +142,45 @@ public class Chooser {
 	 * known.
 	 * <P>
 	 * <B>Use of <tt>loadClass(URL, String)</tt> </B>
-	 * 
+	 *
 	 * <pre>
-	 * 
+	 *
 	 *  1. choose jar File that contains your class
 	 *    f = Chooser.file(&quot;jar&quot;);
-	 * 
+	 *
 	 *  2. get URL of that File object
 	 *    u = f.toURL();
-	 * 
+	 *
 	 *  3. press ESC and load your class
 	 *    Chooser.loadClass(u, &quot;Hello&quot;);
 	 *    class Hello
-	 *  
+	 *
 	 * </pre>
-	 * 
+	 *
 	 * <P>
 	 * <B>How to load a remote class </B>
-	 * 
+	 *
 	 * <pre>
-	 * 
+	 *
 	 *  1. get URL class (click on java.net and then on URL)
 	 *    Chooser.systemClass();
 	 *    class java.net.URL
-	 * 
+	 *
 	 *  2. enter URL of a remote Applet (the slash at the end is crucial)
 	 *    u2 = new URL(&quot;http://java.sun.com/applets/jdk/1.4/demo/applets/ArcTest/&quot;);
-	 * 
+	 *
 	 *  3. press ESC and load your class (MAY TAKE SOME TIME)
 	 *    Chooser.loadClass(u2, &quot;ArcTest&quot;);
 	 *    class ArcTest
-	 * 
+	 *
 	 *  4. make an instance
 	 *    arc = new ArcTest();
-	 * 
+	 *
 	 *  5. press ESC and show the Applet (you need to resize the Frame)
 	 *    Menu.toFrame(arc);
-	 *  
+	 *
 	 * </pre>
-	 * 
+	 *
 	 * @throws ClassNotFoundException
 	 */
 	public static Class loadClass(URL u, String name)
@@ -226,7 +226,7 @@ public class Chooser {
 	}
 	Chooser(Frame f) { //called from Inspector & main()
 		setFields(f, ClassLoader.getSystemClassLoader());
-		addJavaRT();
+		readClassesFromModule();
 		classD = this;
 	}
 	/**
@@ -378,6 +378,27 @@ public class Chooser {
 		System.out.println(t);
 	}
 
+	void readClassesFromModule() {
+			 long time = System.currentTimeMillis();
+			 count = 0;
+			 int numPack = cls.size();
+			 //add each zip entry to its list in cls
+
+
+			 List<String> allClasses = mae.util.ModuleSystem.readClassesFromModule();
+			 for(String s : allClasses)
+					 addToMap(s);
+
+			 makeTopList();
+			 time = (System.currentTimeMillis() - time);
+			 //if (count == 0) return;
+			 System.out.println("from Module System");
+			 String t = (cls.size() - numPack) + " packages and " + count
+									+ " classes available";
+			 if (time > 2) t += "  (" + time + "msec)";
+			 System.out.println(t);
+	 } 
+
 	class Dialog extends JDialog {
 		Dialog(Frame f) {
 			super(f, TITLE, true);
@@ -476,17 +497,17 @@ public class Chooser {
 	}
 
 	/*
-	 * should not appear in SSS 
+	 * should not appear in SSS
 public static void main(String[] args) {
     JFrame frm = new JFrame("Chooser");
-    frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+    frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frm.setVisible(true);
     Chooser p = new Chooser(frm); //p.addJarFile(new File("sss.jar"));
-    //System.out.println(p.getSelection()); 
-    //p.addJarFile(new File("brow.jar")); 
-    String s; 
+    //System.out.println(p.getSelection());
+    //p.addJarFile(new File("brow.jar"));
+    String s;
     while ((s = p.getSelection()) != null)
-        System.out.println(s); 
+        System.out.println(s);
 }
 	 */
 }
