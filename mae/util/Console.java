@@ -237,17 +237,18 @@ public class Console extends JFrame {
    static FileDialog saveD = new FileDialog(NULL, "Save", FileDialog.SAVE);
    static File selectFile(File f, String filter, FileDialog D) {
        if (f != null && f.exists()) D.setDirectory(f.getParent()); 
-       if (filter != null) { //contribution by B E Harmansa
-           D.setFile(filter); //filter for Windows
+       D.setFile(filter);    //filter for Windows
+       if (filter == null) { //filter for Unix -- V2.07
+           D.setFilenameFilter(null);
+       } else { //contribution by B E Harmansa
            final String[] filters = filter.replaceAll("\\*","").split(";");
            D.setFilenameFilter(new FilenameFilter() { 
-           //filter for Unix based operating systems
-                   @Override
-                   public boolean accept(File dir, String name){
+               @Override
+               public boolean accept(File dir, String name){
                    for (String f: filters)
                        if (name.endsWith(f)) return true;
-                       return false;
-                   }
+                   return false;
+               }
            });
        }
        D.setVisible(true);
