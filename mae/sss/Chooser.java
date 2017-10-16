@@ -226,7 +226,7 @@ public class Chooser {
 	}
 	Chooser(Frame f) { //called from Inspector & main()
 		setFields(f, ClassLoader.getSystemClassLoader());
-		addJavaRT();
+		readClassesFromModule();
 		classD = this;
 	}
 	/**
@@ -259,15 +259,7 @@ public class Chooser {
 	public ClassLoader loader() {
 		return ldr;
 	}
-	void addJavaRT() {
-		String home = System.getProperty("java.home");
-		File rt = new File(new File(home, "lib"), "rt.jar");
-		try {
-			addJarContents(rt, true);
-		} catch (Exception x) {
-			System.err.println(x);
-		}
-	}
+	
 	/** Returns the class selected by the user in the dialog */
 	public Class chooseClass() throws ClassNotFoundException {
 		String s = getSelection();
@@ -377,6 +369,25 @@ public class Chooser {
 		if (time > 2) t += "  (" + time + "msec)";
 		System.out.println(t);
 	}
+
+	void readClassesFromModule() {
+		long time = System.currentTimeMillis();
+		count = 0;
+		int numPack = cls.size();
+
+		List<String> allClasses = mae.util.ModuleSystem.readClassesFromModule();
+		for(String s : allClasses)
+			 addToMap(s);
+
+		makeTopList();
+		time = (System.currentTimeMillis() - time);
+		//if (count == 0) return;
+		System.out.println("from Module System");
+		String t = (cls.size() - numPack) + " packages and " + count
+							+ " classes available";
+		if (time > 2) t += "  (" + time + "msec)";
+		System.out.println(t);
+	 } 
 
 	class Dialog extends JDialog {
 		Dialog(Frame f) {
