@@ -120,6 +120,6 @@ public class Plotter {
         double[] c = {   0, 25, 50, 50, 50, 20, 50, -10 };
         p1("Plotter Test", a, b); 
         Thread.sleep(2000); 
-        p2("Plotter ьзlь deneme", a, b, c);
+        p2("Plotter triple test", a, b, c);
     }
 }
