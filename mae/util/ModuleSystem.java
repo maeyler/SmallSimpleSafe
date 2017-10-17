@@ -24,7 +24,7 @@ public class ModuleSystem {
       .forEach(moduleReference -> 
                { 
                    try { moduleReference.open().list().filter(f -> f.startsWith("java")).forEach(p -> stream.add(p)); } 
-                   catch (IOException ex) { System.out.println(ex); } 
+                   catch (IOException ex) { System.err.println(ex); } 
                }); 
       return stream; 
   } 
