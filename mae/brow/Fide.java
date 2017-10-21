@@ -354,7 +354,7 @@ public class Fide extends JPanel implements mae.util.Editor {
         Dimension t = getToolkit().getScreenSize();
         int W = Scaler.scaledInt(500), H = Scaler.scaledInt(500);
         int x = t.width-W, y = t.height-H-25;
-        pm = new PropertyManager("mae", "Fide", getClass());
+        pm = new PropertyManager(mae.sss.SSS.PREFS, "Fide", getClass());
         frm.setBounds(pm.getBounds("frame", x, y, W, H));
         Font f = pm.getFont("font", ttypeS);
         src.setFont(f); 
