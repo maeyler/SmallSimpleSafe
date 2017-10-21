@@ -229,7 +229,7 @@ public class Chooser {
 		setFields(f, ClassLoader.getSystemClassLoader());
 		try {
 		    readModules();  //V2.08  Java 9
-		} catch (Exception x) {
+		} catch (Throwable x) {
 		    addJavaRT();
 		}
 		classD = this;
