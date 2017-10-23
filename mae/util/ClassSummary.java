@@ -167,8 +167,8 @@ public class ClassSummary  {
       int n = in.readUnsignedShort();
       cons = new Constant[n];
       for (int i=1; i<n; i++) {
-         int t; Constant c = null;
-         t = in.readUnsignedByte();
+         Constant c;
+         int t = in.readUnsignedByte();
          switch (t) {
          case 1: 
             c = new Constant(t, in.readUTF()); break;
@@ -180,13 +180,19 @@ public class ClassSummary  {
             c = new Constant(t, ""+in.readLong()); break;
          case 6: 
             c = new Constant(t, ""+in.readDouble()); break;
-         case 7: case 8:
+         case 7: case 8: case 16: case 19: case 20:
             int k = in.readUnsignedShort();
             c = new Binary(t, k, 0); break;
-         case 9: case 10: case 11: case 12:
+         case 9: case 10: case 11: case 12: case 18: {
             int k1 = in.readUnsignedShort();
             int k2 = in.readUnsignedShort();
             c = new Binary(t, k1, k2); break;
+         }
+         case 15: {
+            int k1 = in.readUnsignedByte();
+            int k2 = in.readUnsignedShort();
+            c = new Binary(t, k1, k2); break;
+         }
          default :
             String msg = "illegal tag "+t+" at item "+i;
             throw new RuntimeException(msg);
