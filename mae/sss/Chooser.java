@@ -234,7 +234,7 @@ public class Chooser {
 		}
 		classD = this;
 	}
-	void readModules() throws Exception {  //V2.08  Java 9
+	void readModules() throws Exception { //V2.08 Contribution by B E Harmansa 
                 count = 0;
                 int numPack = cls.size();
                 Class<?> c = Class.forName("mae.util.ModuleSystem");

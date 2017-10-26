@@ -324,6 +324,7 @@ public class ClassSummary  {
       }
       String setStr(Constant[] cons) {
          if (str != null) return str;
+         if (tag > 16) { return str="Unknown tag"; }
          str = cons[c1].setStr(cons); 
          if (c2 == 0) return str;
          if (tag == 12) 

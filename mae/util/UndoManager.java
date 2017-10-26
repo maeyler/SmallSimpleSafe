@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import javax.swing.KeyStroke;
 import javax.swing.text.AbstractDocument;
+import javax.swing.text.AbstractDocument.DefaultDocumentEvent;
 import javax.swing.undo.UndoableEdit;
 import javax.swing.undo.CompoundEdit;
 import javax.swing.event.DocumentEvent;
@@ -57,14 +58,12 @@ public class UndoManager extends javax.swing.undo.UndoManager {
       src.getActionMap().put(REDO, new Act(REDO));
    }
    public boolean addEdit(UndoableEdit u2) {
-       try {
-           u2 = getAbstractDocumentFromReflection(u2); //java9
-       } catch (Exception e) {
- 		   //System.out.print("before jdk9"); 
-	   };
-   
-       if (!(u2 instanceof DocumentEvent)) throw new
-         RuntimeException("Wrong event type "+u2);
+      if (!(u2 instanceof DocumentEvent)) try {
+          u2 = getEventFromWrapper(u2); //V2.08  by B E Harmansa
+      } catch (Exception e) {
+          System.err.println("Wrong event type "+u2); 
+          return false;
+	  }
       UndoableEdit u1 = editToBeUndone();
       boolean added;
       if (u1 == null) added = false;
@@ -80,15 +79,11 @@ public class UndoManager extends javax.swing.undo.UndoManager {
       adjustActions(); return added;
    }
 
-	private AbstractDocument.DefaultDocumentEvent getAbstractDocumentFromReflection(UndoableEdit u2) throws IllegalAccessException,NoSuchFieldException{
-		Class c = u2.getClass();
-		AbstractDocument.DefaultDocumentEvent dde = null;
-    
-		Field f =c.getDeclaredField("dde");
+	static DefaultDocumentEvent getEventFromWrapper(UndoableEdit u2) 
+            throws Exception {   //Contribution by B E Harmansa
+		Field f = u2.getClass().getDeclaredField("dde");
 		f.setAccessible(true);
-		dde = (AbstractDocument.DefaultDocumentEvent) f.get(u2);
-     
-		return dde;
+		return (DefaultDocumentEvent)f.get(u2);
 	}
    static Compound makeCompound(UndoableEdit u) {
       DocumentEvent d = (DocumentEvent)u;
