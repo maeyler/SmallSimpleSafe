@@ -1,4 +1,5 @@
 //21.3.2015 scale fonts and sizes using screen resolution
+//Oct 2017  Swing components are automatically scaled in Java 9 
 
 package mae.util;
 import java.awt.*;
@@ -7,10 +8,12 @@ import javax.swing.*;
 
 public class Scaler {
 
-    public static final boolean 
-        DO_SCALE = System.getProperty("java.version").compareTo("9") < 0;
     public static final int 
-        RESOLUTION = Toolkit.getDefaultToolkit().getScreenResolution(),
+        RESOLUTION = Toolkit.getDefaultToolkit().getScreenResolution();
+    public static final boolean 
+        HIGH_DPI = RESOLUTION > 96,
+        DO_SCALE = mae.sss.SSS.JAVA_version.compareTo("9")<0 && HIGH_DPI;
+    public static final int 
         HTML_SIZE = (DO_SCALE? RESOLUTION/24 : 4);  //4,5,6
                                   //add 1 for Arabic: 5,6,7
     public static final float 

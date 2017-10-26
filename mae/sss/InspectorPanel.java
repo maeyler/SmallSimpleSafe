@@ -251,7 +251,7 @@ public class InspectorPanel extends JPanel {
         pm.setFont("font.large", getFont(2));
     }
 
-        static final String jVersion = System.getProperty("java.version");
+        //static final String jVersion = System.getProperty("java.version");
         static final String user_dir = System.getProperty("user.dir");
         static final String
         HEAD = "<HTML><FONT size="+Scaler.HTML_SIZE+"> <CENTER>",
@@ -260,11 +260,11 @@ public class InspectorPanel extends JPanel {
         SPL2 = HEAD + "<b>web:</b> "+ WEB2
             +"<br><b>mail:</b> small.simple@gmail.com " 
             +"<br><b>user.dir:</b> "+user_dir 
-            +"<br><b>Java version:</b> "+jVersion + TAIL,
+            +"<br><b>Java version:</b> "+SSS.JAVA_version + TAIL,
         SPL3 = HEAD+"Started on "+TAIL,
         SPL4 = "(C)  Akif Eyler, "+SSS.version();
     static final Color 
-                COLOR = (jVersion.compareTo("1.7")>=0? Color.yellow : Color.green);
+        COLOR = (SSS.JAVA_version.compareTo("9")<0? Color.green : Color.yellow);
         //was Color.green; before V1.65
         static final long time = System.currentTimeMillis();
         static final Date date = new Date(time);
