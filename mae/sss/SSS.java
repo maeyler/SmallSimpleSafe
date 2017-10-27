@@ -12,7 +12,7 @@ import mae.util.PropertyManager;
 public class SSS extends JFrame {
    
    public static final String 
-       SSS_date = "Oct 2017 ", SSS_version = "V2.08b", 
+       SSS_date = "Oct 2017 ", SSS_version = "V2.08", 
        JAVA_version = System.getProperty("java.version"),
        PREFS = JAVA_version.compareTo("9")<0 || !Scaler.HIGH_DPI? 
                "mae" : "mae-sss", //new folder under Java 9 & High DPI

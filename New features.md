@@ -2,6 +2,13 @@
 
 ### Binary version history is [here](https://github.com/maeyler/SmallSimpleSafe/commits/master/sss.jar)
 
+### V2.08  Oct 27, 2017
+* In Java 9, rt.jar is replaced by the module system (by B E Harmansa)
+* SystemJavaCompiler is used under JDK -- if not available we revert to tools.jar 
+* Swing components are scaled by Java 9 in Hi DPI screens, no need to scale again
+* Class file format is modified in Java 9, new tags are added
+* UndoManager failure in Java 9 is fixed using reflection (by B E Harmansa)
+
 ### V2.07  Oct 15, 2017
 * FileDialog filters correctly in Unix (contribution by B E Harmansa)
 * Add `Menu.system()` that returns Sytem.class
