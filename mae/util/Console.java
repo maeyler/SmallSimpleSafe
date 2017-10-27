@@ -170,7 +170,7 @@ public class Console extends JFrame {
         Dimension t = Toolkit.getDefaultToolkit().getScreenSize();
         int W = Scaler.scaledInt(500), H = Scaler.scaledInt(500);
         int x = t.width-W, y = t.height-H-25;
-        pm = new PropertyManager("mae", "Console", getClass());
+        pm = new PropertyManager(mae.sss.SSS.PREFS, "Console", getClass());
         setTitle(pm.getProperty("title", "Console"));
         setBounds(pm.getBounds("frame", 0, y, W, H));
         Color c = pm.getColor("color", Color.orange);

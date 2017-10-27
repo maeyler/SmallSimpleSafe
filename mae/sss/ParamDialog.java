@@ -440,7 +440,7 @@ abstract class Input {
       }
       Component component() { return cb; }
    }
-   static class Edit extends Combo { //Afsin Büyüksaraç
+   static class Edit extends Combo { //Afsin Buyuksarac
       ComboBoxEditor ed;
       Edit(Object[] a, String s) {
          super(a); cb.insertItemAt(s, 0); 

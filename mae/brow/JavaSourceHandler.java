@@ -14,7 +14,9 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-//import com.sun.tools.javac.Main; use dynamic loading
+import javax.tools.JavaCompiler;
+import javax.tools.ToolProvider;
+
 import mae.util.ClassSummary;
 import mae.util.Loader;
 import mae.util.Editor;
@@ -29,25 +31,31 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
     Class<?> prog;
     File target;
     Method main;
-    boolean ready;
+    boolean ready; //java program has main() -- ready to run
 
-    static Method javac;
+    static JavaCompiler JC = ToolProvider.getSystemJavaCompiler();
+    static boolean isAvailable = (JC != null); //under JDK use javax.tools
+    static private Method javac = null;    //under JRE 6-8 use tools.jar
     static final String[] ARGS = new String[0]; 
     static final Class[] stringArray = {ARGS.getClass()};
     static final String COMP = "com.sun.tools.javac.Main";
+    static {
+        if (!isAvailable && mae.sss.SSS.JAVA_version.compareTo("9")<0) 
+            try {
+                Class<?> c = //Class.forName(COMP);
+                openArchive("java", COMP, "tools.jar", Fide.instance);
+                javac = c.getMethod("compile", stringArray);
+                isAvailable = true; //tools.jar is open
+            } catch (Exception x) {
+                Fide.instance.setMessage(x.getMessage());
+            }
+    }
 
     /** Sets fields of this SourceHandler */
     public boolean setSource(File f, Editor d) {
         source = f;
         edit = d;
-        if (javac == null)
-            try {
-                Class<?> c = //Class.forName(COMP);
-                openArchive("java", COMP, "tools.jar", d);
-                javac = c.getMethod("compile", stringArray);
-            } catch (Exception x) {
-                edit.setMessage(x.getMessage());
-            }
+        if (!isAvailable) return false;
         String s = f.getName();
         int k = s.lastIndexOf(".java");
         if (k < 0) return false;
@@ -74,7 +82,7 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
         }
     }
     public boolean canCompile() {
-        return (javac != null && source != null);
+        return (isAvailable && source != null);
     }
     public void compile() { compile(source, false); }
     public void compileAll() { compile(source, true); }
@@ -110,7 +118,7 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
         return f.getParent();
     }
     void compile(File f, boolean all) {
-        if (javac == null || !canCompile())
+        if (!isAvailable || !canCompile())
             throw new RuntimeException("not initialized");
         prog = null;
         String[] a = { "-cp", getClassPath(f), "-g" };
@@ -131,7 +139,10 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
         for (String s : a) System.out.print(s+" ");
         System.out.println();
         try {
-            return (Integer)javac.invoke(null, (Object)a);
+            int k = JC != null?
+                JC.run(null, System.out, System.err, a) :
+                (Integer)javac.invoke(null, (Object)a);
+            return k;
         } catch (Exception x) {
             edit.setMessage(x.getMessage()); return -1;
         }

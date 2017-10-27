@@ -1,4 +1,5 @@
 //21.3.2015 scale fonts and sizes using screen resolution
+//Oct 2017  Swing components are automatically scaled in Java 9 
 
 package mae.util;
 import java.awt.*;
@@ -8,10 +9,15 @@ import javax.swing.*;
 public class Scaler {
 
     public static final int 
-        RESOLUTION = Toolkit.getDefaultToolkit().getScreenResolution(),
-        HTML_SIZE = RESOLUTION/24;  //4,5,6
-                  //add 1 for Arabic: 5,6,7
-    public static final float RES_RATIO = RESOLUTION/96f;  //default resolution 96
+        RESOLUTION = Toolkit.getDefaultToolkit().getScreenResolution();
+    public static final boolean 
+        HIGH_DPI = RESOLUTION > 96,
+        DO_SCALE = mae.sss.SSS.JAVA_version.compareTo("9")<0 && HIGH_DPI;
+    public static final int 
+        HTML_SIZE = (DO_SCALE? RESOLUTION/24 : 4);  //4,5,6
+                                  //add 1 for Arabic: 5,6,7
+    public static final float 
+        RES_RATIO = (DO_SCALE? RESOLUTION/96f : 1);  //default resolution 96
     public static final Scaler ins = new Scaler(RES_RATIO); //default instance
     Map<Font, Font> map = new HashMap<Font, Font>(); //keep derived fonts
     float ratio; int nF, nD;
@@ -20,6 +26,7 @@ public class Scaler {
     public float scaled(float x) { return x*ratio; }
     public int scaled(int k) { return Math.round(k*ratio); }
     public Font scaled(Font f) {
+        if (!DO_SCALE) return f;
         if (f == null) return null;
         Font g = map.get(f);
         if (g != null) return g;
@@ -28,6 +35,7 @@ public class Scaler {
         map.put(f, g); return g;
     }
     public Dimension scaled(Dimension d) {
+        if (!DO_SCALE) return d;
         if (d == null) return null;
         return new Dimension(scaled(d.width), scaled(d.height));
     }
@@ -45,7 +53,7 @@ public class Scaler {
     }
     public void scale(Component c) {
         nF = 0;  nD = 0;
-        scaleComponent(c);
+        if (DO_SCALE) scaleComponent(c);
         //System.err.printf("%s fonts and %s dimensions scaled \n", nF, nD);
     }
     

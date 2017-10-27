@@ -13,6 +13,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.lang.reflect.Method;
 
 import mae.util.Console;
 import mae.util.Loader;
@@ -226,8 +227,21 @@ public class Chooser {
 	}
 	Chooser(Frame f) { //called from Inspector & main()
 		setFields(f, ClassLoader.getSystemClassLoader());
-		addJavaRT();
+		try {
+		    readModules();  //V2.08  Java 9
+		} catch (Throwable x) {
+		    addJavaRT();
+		}
 		classD = this;
+	}
+	void readModules() throws Exception { //V2.08 Contribution by B E Harmansa 
+                count = 0;
+                int numPack = cls.size();
+                Class<?> c = Class.forName("mae.util.ModuleSystem");
+                Method m = c.getDeclaredMethod("readClassesFromModule");
+                Object list = m.invoke(null);
+                for (Object s : (List)list) addToMap(s.toString());
+                makeListAndReport(numPack, "Module System");
 	}
 	/**
 	 * Chooses a jar file and makes a Chooser with it using a new Loader object;
@@ -358,7 +372,6 @@ public class Chooser {
 		//Collections.sort(top);
 	}
 	void readZipFile(ZipFile f) {
-		long time = System.currentTimeMillis();
 		count = 0;
 		int numPack = cls.size();
 		//add each zip entry to its list in cls
@@ -368,13 +381,14 @@ public class Chooser {
 			if (!z.isDirectory())
 				addToMap(z.getName());
 		}
+		makeListAndReport(numPack, f.getName());
+	}
+	void makeListAndReport(int numPack, String msg) {
+                if (count == 0) return;
 		makeTopList();
-		time = (System.currentTimeMillis() - time);
-		//if (count == 0) return;
-		System.out.printf("in %s:%n", f.getName());
-		String t = (cls.size() - numPack) + " packages and " + count
-				+ " classes available";
-		if (time > 2) t += "  (" + time + "msec)";
+		System.out.printf("in %s:%n", msg);
+		String t = (cls.size() - numPack) + " packages and "
+				 + count + " classes available";
 		System.out.println(t);
 	}
 

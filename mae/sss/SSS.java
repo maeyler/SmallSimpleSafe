@@ -11,10 +11,15 @@ import mae.util.PropertyManager;
 
 public class SSS extends JFrame {
    
-   public static String version() { return "Oct 2017 V2.07c"; }
-   public static final String title = "Small Simple Safe";
+   public static final String 
+       SSS_date = "Oct 2017 ", SSS_version = "V2.08", 
+       JAVA_version = System.getProperty("java.version"),
+       PREFS = JAVA_version.compareTo("9")<0 || !Scaler.HIGH_DPI? 
+               "mae" : "mae-sss", //new folder under Java 9 & High DPI
+       title = "Small Simple Safe";
    public static SSS instance;
-   static PropertyManager pm = new PropertyManager("mae", "SSS", SSS.class);
+   static PropertyManager pm = new PropertyManager(PREFS, "SSS", SSS.class);
+   public static String version() { return SSS_date+SSS_version; }
    
    Inspector insp;
    InspectorPanel pan;
@@ -23,7 +28,7 @@ public class SSS extends JFrame {
    SSS() {
       Console.getInstance(); 
       if (System.console() == null) Console.start(); //V2.07 
-      System.out.printf("SSS begins %s%n", new Date());
+      System.out.printf("SSS %s begins %s%n", SSS_version, new Date());
       //InspectorPanel.initSplash();  //V1.66 added, V2.07 removed
       UIManager.put("ToolTip.font", mae.brow.Fide.ITEM);  //V1.68
       setDefaultCloseOperation(DISPOSE_ON_CLOSE);

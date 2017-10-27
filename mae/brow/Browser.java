@@ -76,7 +76,7 @@ format.zip=zip,jar,0
    }    
 
    void loadProps() {
-      pm = new PropertyManager("mae", "Browser", getClass());
+      pm = new PropertyManager(mae.sss.SSS.PREFS, "Browser", getClass());
       pan.loadProps(pm);
       for (int i=0; i<ID.length; i++) loadExtensions(i);
    }    
