@@ -202,7 +202,7 @@ public class Chooser {
 	  InspectorPanel.splash.setVisible(true); return null; }
 	 */
 
-	final Map cls = new HashMap(); //package name --> List
+	final Map cls = new HashMap(); //package-module name --> List
 	final List top = new ArrayList(); //top-level package list
 	JList lst;
 	String pckg;
@@ -214,8 +214,8 @@ public class Chooser {
 	final static int GAP = 5;
 	final static Font NORM = Scaler.scaledFont("SansSerif", 0, 11);
 	final static Font BOLD = Scaler.scaledFont("SansSerif", 1, 11);
-	final static String TITLE = "Choose Class", CANCEL = "Cancel",
-			BACK = "Back";
+	final static String TITLE = SSS.JAVA_version.compareTo("9") < 0 ? "Choose class" : "Choose Module"
+						, CANCEL = "Cancel", BACK = "Back";
 	ClassLoader ldr;
 
 	void setFields(Frame f, ClassLoader L) {
@@ -340,6 +340,16 @@ public class Chooser {
 				cls.put(dir, L);
 			}
 			L.add(s.substring(k + 1));
+
+			int m = s.indexOf('#');
+			if ( m != -1) {
+				String module = s.substring(0,m);
+				Set L3 = (Set) cls.get(module);
+				if(L3 == null){
+					L3 = new TreeSet();
+					cls.put(module,L3);
+				}
+			}
 			count++;
 		} catch (StringIndexOutOfBoundsException x) {
 			//return silently
@@ -354,8 +364,26 @@ public class Chooser {
 			return;
 		Arrays.sort(keys);
 		top.add(keys[0]);
+		boolean existModule = SSS.JAVA_version.compareTo("9") >= 0; //to be check existing of Java Module System 
 		for (int i = 1; i < n; i++) {
 			String s = (String) keys[i];
+			if(existModule){
+				int m = s.indexOf('#');
+				String module = m == -1 ? s : s.substring(0,m);
+				if(m == -1){//if s is a module
+					top.add(module);
+					continue;
+				}
+				String pack = s.substring(m+1);//Updating package name, java.base#java.lang -> java.lang
+				Set L4 = (Set) cls.get(s);
+				cls.put(pack,L4);
+				cls.remove(s);
+
+				Set L5 = (Set) cls.get(module);
+				L5.stream().filter(f -> pack.startsWith(f.toString()))
+							.peek(p -> L5.add(pack));//add package into module
+				s=pack;
+			}
 			int k = s.lastIndexOf('.');
 			String p = (k < 0) ? "" : s.substring(0, k);
 			Set L2 = (Set) cls.get(p);
@@ -363,7 +391,7 @@ public class Chooser {
 				L2.add(s);
 			else {
 				String t = (String) top.get(top.size() - 1);
-				if (!p.startsWith(t))
+				if (!existModule & !p.startsWith(t))
 					top.add(s);
 				else
 					((Set) cls.get(t)).add(s);
