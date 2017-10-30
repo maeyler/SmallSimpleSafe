@@ -12,10 +12,11 @@ import mae.util.PropertyManager;
 public class SSS extends JFrame {
    
    public static final String 
-       SSS_date = "Oct 2017 ", SSS_version = "V2.08b", 
-       JAVA_version = System.getProperty("java.version"),
-       PREFS = JAVA_version.compareTo("9")<0 || !Scaler.HIGH_DPI? 
-               "mae" : "mae-sss", //new folder under Java 9 & High DPI
+       SSS_date = "Oct 2017 ", SSS_version = "V2.08c", 
+       JAVA_version = System.getProperty("java.version");
+   public static boolean JAVA9 = JAVA_version.compareTo("9")>=0;
+   public static final String 
+       PREFS =  JAVA9 && Scaler.HIGH_DPI? "mae-sss" : "mae",
        title = "Small Simple Safe";
    public static SSS instance;
    static PropertyManager pm = new PropertyManager(PREFS, "SSS", SSS.class);

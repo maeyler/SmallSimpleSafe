@@ -214,8 +214,8 @@ public class Chooser {
 	final static int GAP = 5;
 	final static Font NORM = Scaler.scaledFont("SansSerif", 0, 11);
 	final static Font BOLD = Scaler.scaledFont("SansSerif", 1, 11);
-	final static String TITLE = SSS.JAVA_version.compareTo("9") < 0 ? "Choose class" : "Choose Module"
-						, CANCEL = "Cancel", BACK = "Back";
+	final static String TITLE = SSS.JAVA9 ? "Choose Module" : "Choose Class"
+				, CANCEL = "Cancel", BACK = "Back";
 	ClassLoader ldr;
 
 	void setFields(Frame f, ClassLoader L) {
@@ -364,25 +364,26 @@ public class Chooser {
 			return;
 		Arrays.sort(keys);
 		top.add(keys[0]);
-		boolean existModule = SSS.JAVA_version.compareTo("9") >= 0; //to be check existing of Java Module System 
 		for (int i = 1; i < n; i++) {
 			String s = (String) keys[i];
-			if(existModule){
+			if (SSS.JAVA9) {
 				int m = s.indexOf('#');
-				String module = m == -1 ? s : s.substring(0,m);
-				if(m == -1){//if s is a module
+				String module = (m == -1) ? s : s.substring(0,m);
+				if (m == -1) { //if s is a module
 					top.add(module);
 					continue;
 				}
-				String pack = s.substring(m+1);//Updating package name, java.base#java.lang -> java.lang
+				String pack = s.substring(m+1);
+				//Updating package name, java.base#java.lang -> java.lang
 				Set L4 = (Set) cls.get(s);
 				cls.put(pack,L4);
 				cls.remove(s);
 
-				Set L5 = (Set) cls.get(module);
-				L5.stream().filter(f -> pack.startsWith(f.toString()))
-							.peek(p -> L5.add(pack));//add package into module
-				s=pack;
+				Set<String> L5 = (Set<String>)cls.get(module);
+				for (String p: L5) 
+				    if (pack.startsWith(p)) 
+				        L5.add(p); //add package into module
+				s = pack;
 			}
 			int k = s.lastIndexOf('.');
 			String p = (k < 0) ? "" : s.substring(0, k);
@@ -391,7 +392,7 @@ public class Chooser {
 				L2.add(s);
 			else {
 				String t = (String) top.get(top.size() - 1);
-				if (!existModule & !p.startsWith(t))
+				if (!SSS.JAVA9 && !p.startsWith(t))
 					top.add(s);
 				else
 					((Set) cls.get(t)).add(s);
