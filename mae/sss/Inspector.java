@@ -96,13 +96,8 @@ public class Inspector {
         meth = new ArrayList();
         panel.right.setCellRenderer(new Renderer());
         Menu.frm = f;
-        /*if (demo) {
-            MENU = mae.sss.DemoMenu.class;
-        } else*/ {
-            //MENU = mae.sss.Menu.class;
-            new Dropper(this, panel.left); //for drop support
-            new Init().start(); //init(frm);
-        }
+        new Dropper(this, panel.left); //for drop support
+        new Init().start(); //init(frm);
         hist = new History(HIST_SIZE, MENU);
     }
 
@@ -209,9 +204,8 @@ public class Inspector {
     }
     void addFields(Object ref, Class c, List L, boolean isStatic, List lst) {
         if (L.contains(c)) return;
-        /*if (!demo)*/ addClassName(c, L, lst);
-        Field[] F = /*demo ? c.getFields() :*/ c.getDeclaredFields();
-        /*if (!demo)*/ AccessibleObject.setAccessible(F, true);
+        addClassName(c, L, lst);
+        Field[] F = c.getDeclaredFields();
         boolean all = panel.dispAll.isSelected(); //dispAll not checked
         for (int i = 0; i < F.length; i++) {
             Field f = (Field) F[i];
@@ -223,19 +217,20 @@ public class Inspector {
             //displayField(ref, f, L, lst);
             Class typ = f.getType();
             String s = f.getName();
+            Object val = null;
             try {
-                Object val = f.get(ref);
+                f.setAccessible(true); //illegal under Java 9
+                val = f.get(ref);
+            } catch (Exception x) {
+                panel.setMessage("Inaccessible: "+s); 
+                L.add(null); continue;
+            }
                 String v = valueToName(typ, val);
                 lst.add(typeToName(typ) + "  " + s + " = " + v);
                 if (typ.isPrimitive())
                     L.add(null);
                 else
                     L.add(new Data(val, s));
-                //} catch (NullPointerException x) {
-                //    errorMessage(x, "NullPointer at "+f);
-            } catch (Exception x) {
-                errorMessage(x);
-            }
         }
         //      addInterfaces(c, L, lst, false);
         Class[] N = c.getInterfaces();
@@ -653,22 +648,22 @@ public class Inspector {
             Class typ;
             if (m instanceof Method) {
                 Method met = (Method) m;
-                /*if (!demo)*/ met.setAccessible(true);
+                met.setAccessible(true);
                 int mod = met.getModifiers();
                 if (Modifier.isStatic(mod))
                     in = null;
                 typ = met.getReturnType();
                 Class dec = met.getDeclaringClass();
                 if (dec.isInterface()) {
-                    if (obj == null)
-                        throw new IllegalArgumentException("no object");
+                    //if (obj == null)  Java 9 allows static method calls here
+                      //  throw new IllegalArgumentException("no object");
                     in = obj;
                 }
                 name = caller() + '.' + m.getName() + param;
                 out = met.invoke(in, a);
             } else {
                 Constructor con = (Constructor) m;
-                /*if (!demo)*/ con.setAccessible(true);
+                con.setAccessible(true);
                 typ = con.getDeclaringClass();
                 name = "new " + typeToName(typ) + param;
                 out = con.newInstance(a);
@@ -692,9 +687,8 @@ public class Inspector {
         } catch (InvocationTargetException x) {
             Throwable t = x.getTargetException();
             errorMessage(t);
-            //         t.printStackTrace();
         } catch (Throwable x) {
-            errorMessage(x, x.getClass() + "\n" + m.getName() + "()");
+            panel.setMessage("Inaccessible: "+m.getName()+"()");
         } finally {
             panel.left.repaint();
             panel.left.requestFocus();
