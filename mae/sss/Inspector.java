@@ -46,6 +46,7 @@ public class Inspector {
         MAX = 200, //lines in arrays
         HIST_SIZE = 8; //objects remembered
     final static String PREFIX = "x", BECOMES = "; //--> ",
+        INACCESSIBLE = "[Inaccessible]",
         THICK_SEP = "==================================",
         MID_SEP = "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=",
         THIN_SEP = "--------------------------------------------";
@@ -217,22 +218,21 @@ public class Inspector {
             //displayField(ref, f, L, lst);
             Class typ = f.getType();
             String s = f.getName();
-            Object val = null;
+            Object val; String v; 
             try {
                 f.setAccessible(true); //illegal under Java 9
                 val = f.get(ref);
+                v = valueToName(typ, val);
             } catch (Exception x) {
-                panel.setMessage("Inaccessible: "+s); 
-                L.add(null); continue;
+                panel.setMessage(INACCESSIBLE+" "+s); 
+                val = null; v = INACCESSIBLE;
             }
-                String v = valueToName(typ, val);
                 lst.add(typeToName(typ) + "  " + s + " = " + v);
-                if (typ.isPrimitive())
+                if (typ.isPrimitive() || val == null)
                     L.add(null);
                 else
                     L.add(new Data(val, s));
         }
-        //      addInterfaces(c, L, lst, false);
         Class[] N = c.getInterfaces();
         for (int i = 0; i < N.length; i++)
             addFields(null, N[i], L, isStatic, lst);
@@ -688,7 +688,7 @@ public class Inspector {
             Throwable t = x.getTargetException();
             errorMessage(t);
         } catch (Throwable x) {
-            panel.setMessage("Inaccessible: "+m.getName()+"()");
+            panel.setMessage(INACCESSIBLE+" "+m.getName()+"()");
         } finally {
             panel.left.repaint();
             panel.left.requestFocus();

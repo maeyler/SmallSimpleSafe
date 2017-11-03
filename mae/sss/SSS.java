@@ -12,7 +12,7 @@ import mae.util.PropertyManager;
 public class SSS extends JFrame {
    
    public static final String 
-       SSS_date = "Oct 2017 ", SSS_version = "V2.08c", 
+       SSS_date = "Nov 2017 ", SSS_version = "V2.08d", 
        JAVA_version = System.getProperty("java.version");
    public static boolean JAVA9 = JAVA_version.compareTo("9")>=0;
    public static final String 
