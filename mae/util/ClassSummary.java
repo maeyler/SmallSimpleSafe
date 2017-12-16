@@ -41,16 +41,21 @@ public class ClassSummary  {
        MAIN ="main",  STR = "([Ljava/lang/String;)V";   
 
    /** Invokes main constructor by making a new File(s). */
-   public ClassSummary(String s) { this(new File(s)); }
+   public ClassSummary(String s) throws IOException { 
+       this(new FileInputStream(s)); 
+   }
+   public ClassSummary(File f) throws IOException { 
+       this(new FileInputStream(f));
+   }
    /**
     * Main constructor: opens the class file f, decodes it, and closes it.
     * <P>
     * File is read to the end. 
     * Throws a RuntimeException, if end of file is not reached.
     */   
-   public ClassSummary(File f) {
+   public ClassSummary(InputStream is) {
       try {
-         in = new DataInputStream(new FileInputStream(f));
+         in = new DataInputStream(is);
          if (in.readInt() != MAGIC) throw new 
             RuntimeException("Not a valid class file");
          versLo = in.readUnsignedShort();
@@ -335,7 +340,7 @@ public class ClassSummary  {
    }
 
    /** Prints a full description for the class in args[0]. */
-   public static void main(String args[]) {
+   public static void main(String args[]) throws IOException {
 //      System.out.println(new File("").getAbsolutePath());
       String fName = (args.length>0 ? args[0] : "Small");
       ClassSummary s = new ClassSummary(fName+".class");

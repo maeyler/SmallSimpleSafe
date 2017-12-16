@@ -85,30 +85,33 @@ public class Dropper implements DropTargetListener {
       return null;
    }
    public boolean display(Transferable t) {
+      if (display(DataFlavor.imageFlavor, t)) return true;
+      if (display(DataFlavor.javaFileListFlavor, t)) return true;
+      //quietly go on with all flavors in t
       DataFlavor[] a = t.getTransferDataFlavors();
       for (int i=0; i<a.length; i++) 
-         if (isAccepted(a[i])) {
-            try {
-               display(a[i], t);
+         if (isAccepted(a[i]) && display(a[i], t)) 
                return true;
-            } catch (Exception x) {
-               //quietly go on with the next flavor
-            }
-         }
       return false;
    }
-   void display(DataFlavor f, Transferable t) 
-      throws IOException, UnsupportedFlavorException {
-      Object x = t.getTransferData(f);
-      if (x instanceof List) {
-         List L = (List)x;
-         if (L.size() == 1) x = L.get(0);
-         else x = L.toArray();
+   boolean display(DataFlavor f, Transferable t) {
+      try {
+          Object x = t.getTransferData(f);     
+          if (x instanceof List) {
+             List L = (List)x;
+             if (L.size() == 1) x = L.get(0);
+             else x = L.toArray();
+          }
+          String id = PREFIX+objCount; objCount++;
+          ins.addObject(x, id);
+          ins.inspectObject(x);
+          System.out.println(id+": "+f.getMimeType()); 
+          return true;
+      } catch (IOException ex) { 
+          return false;
+      } catch (UnsupportedFlavorException ex) { 
+          return false;
       }
-      String id = PREFIX+objCount; objCount++;
-      ins.addObject(x, id);
-      ins.inspectObject(x);
-      System.out.println(id+": "+f.getMimeType()); 
    }
 
    class Paste extends AbstractAction {

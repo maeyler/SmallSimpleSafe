@@ -2,6 +2,10 @@
 
 ### Binary version history is [here](https://github.com/maeyler/SmallSimpleSafe/commits/master/sss.jar)
 
+### V2.09  Dec 16, 2017
+* Paste order is modified: Image, then File, then String and others
+* New constructor ClassSummary(InputStream)
+
 ### V2.08  Oct 27, 2017
 * In Java 9, rt.jar is replaced by the module system (by B E Harmansa)
 * SystemJavaCompiler is used under JDK -- if not available we revert to tools.jar 

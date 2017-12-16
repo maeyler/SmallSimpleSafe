@@ -294,7 +294,7 @@ public class Chooser {
 	/** Adds a jar file to the ClassLoader and the dialog */
 	public Class addJarFile(File f) throws IOException, ClassNotFoundException {
 		addJarContents(f, false);
-		Loader.addURLto(f.toURL(), ldr);
+		Loader.addURLto(f.toURI().toURL(), ldr);
 		String m = Loader.mainClassOf(f);
 		return ldr.loadClass(m);
 	}
