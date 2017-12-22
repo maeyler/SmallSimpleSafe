@@ -41,11 +41,16 @@ public class ClassSummary  {
        MAIN ="main",  STR = "([Ljava/lang/String;)V";   
 
    /** Invokes main constructor by making a new File(s). */
-   public ClassSummary(String s) throws IOException { 
-       this(new FileInputStream(s)); 
-   }
-   public ClassSummary(File f) throws IOException { 
-       this(new FileInputStream(f));
+   public ClassSummary(String s) { this(makeInputStream(s)); }
+   public ClassSummary(File f)   { this(makeInputStream(f)); }
+   static InputStream makeInputStream(Object f) { 
+      try { 
+         if (f instanceof File) 
+              return new FileInputStream((File)f);
+         else return new FileInputStream(f.toString());
+      } catch (IOException e) {
+         throw new RuntimeException(e.getMessage());
+      }
    }
    /**
     * Main constructor: opens the class file f, decodes it, and closes it.
