@@ -215,6 +215,7 @@ public class Inspector {
                 continue;
             if (Modifier.isStatic(mod) != isStatic)
                 continue;
+            if (isDeprecated(f)) continue;
             //displayField(ref, f, L, lst);
             Class typ = f.getType();
             String s = f.getName();
