@@ -290,6 +290,44 @@ public class Menu {
         InspectorPanel.showAboutDlg(); 
         return null;
     }
+
+	/*
+	Sometimes, Java compiler occures error when runs on Linux because of
+	the java files are encoded Cp1254 (generally written in Windows). 
+	The method below, converts the encoding of given files from Cp1254 to UTF-8.
+	*/
+	public static void convertEncoding(){
+		File[] files = Console.filesToOpen(null);
+
+		final String baseEncoding = "Cp1254";
+		final String targetEncoding = "UTF-8";
+
+		for (File f: files) {
+			if ( f == null || !f.exists() ) continue; 
+			// should throw exception instead of continue? 
+			// throw new RuntimeException( f + " not exist !")
+
+			try {
+				InputStream is = new FileInputStream(f);
+				byte[] baseData = new byte[is.available()];
+				is.read(baseData);
+
+				String text = new String(baseData, baseEncoding);
+				
+				byte[] targetData = text.getBytes(targetEncoding);
+				OutputStream os = new FileOutputStream(f);
+				os.write(targetData);
+
+				System.out.printf("%s - %d byte(Cp1254) to %d byte(UTF-8)\n", 
+									f.getName(), baseData.length, targetData.length);
+
+			} catch (UnsupportedEncodingException ex) {
+				System.out.println("Encoding not found");
+			} catch (IOException ex ) {
+				System.out.println("IOException occured");
+			} 
+		}
+	}
     /*
          * @deprecated
          * Shows java version  

@@ -235,9 +235,8 @@ public class Console extends JFrame {
    static Frame NULL = null;  //might use Menu.frm, but it's not public
    static FileDialog openD = new FileDialog(NULL, "Open", FileDialog.LOAD);
    static FileDialog saveD = new FileDialog(NULL, "Save", FileDialog.SAVE);
-   static File selectFile(File f, String filter, FileDialog D) {
-       if (f != null && f.exists()) D.setDirectory(f.getParent()); 
-       D.setFile(filter);    //filter for Windows
+   static void applyFilter(String filter, FileDialog D) {
+      D.setFile(filter);    //filter for Windows
        if (filter == null) { //filter for Unix -- V2.07
            D.setFilenameFilter(null);
        } else { //contribution by B E Harmansa
@@ -251,10 +250,31 @@ public class Console extends JFrame {
                }
            });
        }
+   }
+   static File selectFile(File f, String filter, FileDialog D) {
+       if (f != null && f.exists()) D.setDirectory(f.getParent()); 
+
+       applyFilter(filter, D);
+
        D.setVisible(true);
        String fa = D.getFile();
        if (fa == null) return null;
        return new File(D.getDirectory(), fa);  //fa[0];
+   }
+   static File[] selectFiles(File f, String filter, FileDialog D) {
+      if (f != null && f.exists()) D.setDirectory(f.getParent());
+
+      applyFilter(filter, D);
+
+      D.setMultipleMode(true); // active multiple selection mode
+      D.setVisible(true);
+      File[] files = D.getFiles();
+      D.setMultipleMode(false); // deactive multiple selection mode
+
+      return files;
+   }
+   public static File[] filesToOpen(String filter) {
+       return selectFiles(null, filter, openD);
    }
    public static File fileToOpen(String filter) {
        return selectFile(null, filter, openD);
