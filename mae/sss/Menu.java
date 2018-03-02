@@ -291,49 +291,41 @@ public class Menu {
         return null;
     }
 
-	/*
-	Sometimes, Java compiler occures error when runs on Linux because of
-	the java files are encoded Cp1254 (generally written in Windows). 
+	/**
+	Sometimes, Java compiler may find an error on Linux because of
+	the java files encoded with Cp1254 (generally written in Windows). 
 	The method below, converts the encoding of given files from Cp1254 to UTF-8.
 	*/
-	public static void convertEncoding(){
-		File[] files = Console.filesToOpen(null);
+	public static void fixEncoding(File... files){
+		//File[] files = Console.filesToOpen(null);
 
 		final String baseEncoding = "Cp1254";
 		final String targetEncoding = "UTF-8";
 
 		for (File f: files) {
-			if ( f == null || !f.exists() ) continue; 
-			// should throw exception instead of continue? 
-			// throw new RuntimeException( f + " not exist !")
-
 			try {
 				InputStream is = new FileInputStream(f);
-				byte[] baseData = new byte[is.available()];
-				is.read(baseData);
+				byte[] baseData = new byte[(int)f.length()];
+				is.read(baseData);  //if first char is BOM, file is UTF-8
+				if (baseData[0]==-17 && baseData[1]==-69 && baseData[2]==-65) continue;
 
 				String text = new String(baseData, baseEncoding);
 				
 				byte[] targetData = text.getBytes(targetEncoding);
+				if (targetData.length == f.length()) continue;
+
 				OutputStream os = new FileOutputStream(f);
+				os.write(-17); os.write(-69); os.write(-65); //write BOM
 				os.write(targetData);
 
 				System.out.printf("%s - %d byte(Cp1254) to %d byte(UTF-8)\n", 
 									f.getName(), baseData.length, targetData.length);
 
 			} catch (UnsupportedEncodingException ex) {
-				System.out.println("Encoding not found");
+				System.err.println("Encoding not found");
 			} catch (IOException ex ) {
-				System.out.println("IOException occured");
+				System.err.println("IOException occured");
 			} 
 		}
 	}
-    /*
-         * @deprecated
-         * Shows java version  
-        @Deprecated
-    public static String java_version() {
-        return System.getProperty("java.version");
-    }
-        */
 }
