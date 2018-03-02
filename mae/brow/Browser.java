@@ -32,22 +32,22 @@ public class Browser {
    PropertyManager pm;
    boolean exit;
    BrowserPanel pan;
-   JList root, list;
+   JList<Object> root, list;
    File dir, file; 
    String path;
    URL mouseOn;
    History hist;
-   HashMap map;
+   final Map<String, Integer> map = new HashMap<>();
    final static int HIST_SIZE = 50;
    final static String 
       RENAME = "Rename", MOVE = "Move", SAVE = "Save As", 
       REFR = "Refresh", VIEW = "View", FIX = "Fix date",
       RUN = "Run", EDIT = "Edit", OPEN = "Open";
    final static int      //integers for known file types
-      TEXT=0, PICT=1, HTML=2, /*EZVU=3,*/ CLASS=3, ZIP=4;  //ezvu removed V1.66
+      TEXT=0, PICT=1, HTML=2, CLASS=3, ZIP=4;  //ezvu removed V1.66
    final static String[] //keys for known file types
-      ID = {"text", "pict", "html", /*"ezvu",*/ "class", "zip"};
-   final static int[] MAX_SIZE = new int[6];
+      ID = {"text", "pict", "html", "class", "zip"};
+   final static int[] MAX_SIZE = new int[5];
 /*#Format specs: file extensions & max file size
 format.text=txt,java,64
 format.pict=gif,jpg,png,800
@@ -65,7 +65,6 @@ format.zip=zip,jar,0
       Frame frm = new Frame(this);
       pan = new BrowserPanel(frm);
       root = pan.root; list = pan.list;
-      map = new HashMap(); 
       makeRoot(); makeList(d); 
       hist = new History(HIST_SIZE, dir); //hist.add(dir); 
       loadProps();  //frm.pack(); V1.68
@@ -106,22 +105,17 @@ format.zip=zip,jar,0
       int size = Integer.parseInt(val.substring(k));
       MAX_SIZE[i] = size;
    }
-   int indexOf(String s) { 
-      Integer n = (Integer)map.get(s);
-      if (n == null) return -1;
-      else return n.intValue();
-   }
 
    void makeRoot() {
       File[] F = File.listRoots();
       if (F.length > 1) root.setListData(F);
       else {
           F = F[0].listFiles();
-          List a = new ArrayList(F.length+1);
+          List<String> a = new ArrayList<>(F.length+1);
           for (int i=0; i<F.length; i++)
               if (!F[i].isHidden() && F[i].isDirectory()) 
                  a.add(F[i].toString());
-          Comparator comp = String.CASE_INSENSITIVE_ORDER;
+          Comparator<String> comp = String.CASE_INSENSITIVE_ORDER;
           java.util.Collections.sort(a, comp);
           root.setListData(a.toArray());
       }
@@ -145,7 +139,7 @@ format.zip=zip,jar,0
       }
       
       File[] F = dir.listFiles();
-      List a = new ArrayList(F.length+1);
+      List<String> a = new ArrayList<>(F.length+1);
       a.add(" [..]");
       int nD = 0, nF = 0;
       for (int i=0; i<F.length; i++)
@@ -159,7 +153,7 @@ format.zip=zip,jar,0
                a.add(name); nF++;
             }
          }
-      Comparator comp = String.CASE_INSENSITIVE_ORDER;
+      Comparator<String> comp = String.CASE_INSENSITIVE_ORDER;
       java.util.Collections.sort(a, comp);
       list.setListData(a.toArray());
       pan.setFolderText(path, nD, nF);
@@ -203,12 +197,12 @@ format.zip=zip,jar,0
       String fn = Q+file.getName()+Q;
       String fName = file.getAbsolutePath();
       String ext = SimpleFilter.extension(file); //getExtension(fName);
-      int i = indexOf(ext);
-      int m = (i < 0)? MAX_SIZE[0] : MAX_SIZE[i];
+      Integer i = map.get(ext);
+      int m = (i == null)? MAX_SIZE[0] : MAX_SIZE[i];
       boolean large = (m>0 && (n>>10)>m); //n in Kbytes
       String txt = large? null : fileToString(fName);
-      if (i < 0) {
-         if (!large && isPlainText(txt)) 
+      if (i == null) {
+         if (!large && isPlainText(file, txt))
               pan.displayText(txt); 
          else pan.showText(Q+ext+Q+" is not supported"); 
       } else if (large) { //throw new RuntimeException
@@ -220,16 +214,9 @@ format.zip=zip,jar,0
          case TEXT: 
             pan.displayText(txt); break;
          case HTML: 
-            pan.displayPage(file.toURL()); break;
+            pan.displayPage(file.toURI().toURL()); break;
          case CLASS: 
             pan.displayClass(fName); break;
-/*         case EZVU: 
-            EvReader ev = new EvReader(fName);
-            pan.displayText(ev.toString());
-            pan.open.setText(VIEW); break;
-            //pan.showText("open "+fName); 
-            //new EasyView(fName); break;
-*/
          case ZIP: 
             pan.displayZip(file); break;
          }
@@ -268,7 +255,22 @@ format.zip=zip,jar,0
       }
       throw new RuntimeException(msg); //+"\nbecause of "+x);
    }
-   static boolean isPlainText(String s)  {
+   static String fileTypeURL(File f) throws Exception { //V1.67
+      return f.toURI().toURL().openConnection().getContentType();
+   }
+   static String fileTypeNIO(File f) throws Exception { //V2.10
+      return java.nio.file.Files.probeContentType(f.toPath());
+   }
+   public static boolean isPlainText(File f, String s)  {
+      try {
+          String typ = fileTypeNIO(f);
+          if (typ == null)  typ = fileTypeURL(f);
+          if (typ.startsWith("text")) return true;
+          if (typ.startsWith("appl")) return false;
+          if (typ.startsWith("imag")) return false;
+      } catch (Exception x) { //continue with checking text
+          System.out.println("This should not happen\n"+x);
+      }
       int n = Math.min(s.length()-1, 200); //last byte can be ^Z
       for (int i=0; i<n; i++) {
           char c = s.charAt(i);
@@ -314,12 +316,6 @@ format.zip=zip,jar,0
    void doSave() throws IOException {
       //JFileChooser fileD = Scaler.fileChooser();   //V1.68
       File f = new File(path, file.getName());
-/*      fileD.setSelectedFile(f); 
-      int k = fileD.showSaveDialog(pan);
-      if (k != JFileChooser.APPROVE_OPTION) return;
-      File g = fileD.getSelectedFile();
-      if (g == null) return;
-      if (!Console.confirm(g, pan)) return;*/
       File g = Console.fileToSave(f, null);
       String cmd = pan.save.getText();
       copy(file, g); 
@@ -428,7 +424,7 @@ format.zip=zip,jar,0
       }
       public void valueChanged(ListSelectionEvent e) {
          if (e.getValueIsAdjusting()) return;
-         JList L = (JList)e.getSource();
+         JList<?> L = (JList<?>)e.getSource();
          if (L.getSelectedIndex() < 0) return;
          String s = L.getSelectedValue().toString();
          int n = s.length();

@@ -8,7 +8,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.Date;
 import java.text.DateFormat;
 import java.util.zip.ZipFile;
@@ -28,7 +27,8 @@ public class BrowserPanel extends JSplitPane {
 
    DateFormat form;
    JFrame frm;
-   JList root, list;
+   JList<Object> root = new JList<>();
+   JList<Object> list = new JList<>();;
    JPanel infoPan, imgPan;
    JLabel pathL, fileL, contL;
    JViewport port;
@@ -65,13 +65,11 @@ public class BrowserPanel extends JSplitPane {
          BorderFactory.createEmptyBorder(0, GAP, GAP, GAP)
       );
 
-      root = new JList();
       root.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
       root.setToolTipText("Root of the file system");
       JScrollPane one = new JScrollPane(root);
       one.setPreferredSize(Scaler.scaledDimension(100, 160));
 
-      list = new JList();
       list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
       list.setToolTipText("Folders & files in the current folder");
       JScrollPane two = new JScrollPane(list);
@@ -263,18 +261,18 @@ public class BrowserPanel extends JSplitPane {
    String fileType(File f) { //V1.67
       try {
          fix.setVisible(false); meta = null;
-         URLConnection c = f.toURL().openConnection();
-         String type = c.getContentType();
+         String type = Browser.fileTypeNIO(f);
+         if (type == null) type = Browser.fileTypeURL(f);
+         System.err.printf("%s  %s%n", f.getName(), type);
          if (!type.startsWith("image")) return type;
          meta = new Metadata(f);
          long t = meta.getTime();
       //V2.06 -- silent bug corrected: (plus -> comma)
-      System.err.printf("fileType %s --> %s \n", f, type);
+      //System.err.printf("fileType %s --> %s \n", f, type);
          if (t <= 0) return type;
          fix.setText(timeToString(t));
          fix.setEnabled(!meta.correctTime());
          fix.setVisible(true);
-         c.getInputStream().close();
          return type;
       } catch (Exception x) {
          //System.err.println(x);  //V2.06 found the bug!
