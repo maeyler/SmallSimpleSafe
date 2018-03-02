@@ -33,7 +33,7 @@ public class Chooser {
 	static FontDialog fontD;
 	static File lastDir;  
 	static final String //SimpleFilter 
-		CLASS_FLTR = "*class", JAR_FLTR = "*jar", 
+		CLASS_FLTR = "*.class", JAR_FLTR = "*.jar", 
 	        TEACH_FLTR = "*.teacher;*.txt";
         static final Runtime RT = Runtime.getRuntime();
 
@@ -90,8 +90,10 @@ public class Chooser {
 	}
 
 	/** Shows standard file chooser */
-	public static File file() {
-		return Console.fileToOpen(null);
+	public static Object files() {
+		File[] fa = Console.filesToOpen(null);
+		if (fa.length == 1) return fa[0];
+		return fa;
 	}
 	/** Starts a Teacher session from a named resource */
 	public static void runTeacher(String s) {
