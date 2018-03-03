@@ -51,18 +51,15 @@ public class Chooser {
 	public static Color pickColor(Color c) {  //V1.65
 		return JColorChooser.showDialog(Menu.frm, "Choose your color", c);
 	}
-	/** 
-         * input: a single java file
-         * Compile all java files in its folder
-        */ 
-        public static void compileAll(File f) { //V2.02
-            if (!f.getName().endsWith(".java")) 
-                throw new RuntimeException(f+" not a java file");
-            if (Fide.instance == null) Fide.main();
-            Fide F = Fide.instance; F.open(f);
-            JavaSourceHandler h = (JavaSourceHandler)F.getHandler();  
-            //new JavaSourceHandler(); h.setSource(f, F);
-	    h.compileAll();
+	/** Compile all java files in the input array */ 
+    public static void compile(File... fa) { //V2.02 and V2.10
+        File f0 = fa[0];
+        if (!f0.getName().endsWith(".java")) 
+            throw new RuntimeException(f0+" not a java file");
+        if (Fide.instance == null) Fide.main();
+        Fide F = Fide.instance; F.open(f0);
+        JavaSourceHandler h = (JavaSourceHandler)F.getHandler();  
+	    h.compileFiles(fa);
 	}
 	/** An array of all framed windows, including hidden ones */
 	public static Window[] windows() {  //V1.66

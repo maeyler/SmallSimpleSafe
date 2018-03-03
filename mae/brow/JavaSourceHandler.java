@@ -131,18 +131,24 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
         if (!isAvailable || !canCompile())
             throw new RuntimeException("not initialized");
         prog = null;
-        String[] a = { "-cp", getClassPath(f), "-g" };
-        //compiler options such as "-Xlint:unchecked" should be at a[0]
-        List<String> L = new ArrayList<String>(Arrays.asList(a));
-        //for (String s : a) L.add(s);
         if (all) {
-            final File p = f.getParentFile();
-            for (String s : p.list()) 
-                if (s.endsWith(".java")) L.add(p+File.separator+s);
+            compileFiles(f.getParentFile().listFiles());
         } else {
-            L.add(f.getAbsolutePath());
+            compileFiles(f);
         }
-        new Comp(L.toArray(a)).start();
+    }
+    public void compileFiles(File... fa) {
+        if (fa.length == 0) return;
+        String[] sa = { "-cp", getClassPath(fa[0]), "-g" };
+        //compiler options such as "-Xlint:unchecked" should be at a[0]
+        List<String> L = new ArrayList<>(Arrays.asList(sa));
+        for (File f : fa) {
+            String s = f.getAbsolutePath();
+            if (s.endsWith(".java")) L.add(s);
+        }
+        System.out.println(L.size()+" files compiled");
+        if (L.size() == 3) return;
+        new Comp(L.toArray(sa)).start();
     }
     int compile(String[] a) { //called by class Comp
         System.out.print("javac ");
