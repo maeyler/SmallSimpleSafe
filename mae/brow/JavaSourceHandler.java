@@ -11,6 +11,8 @@ import java.io.*;
 import java.util.*;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -98,8 +100,16 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
             loadTarget();
         run(prog);
     }
-
-    public JMenu menu() { return null; }  //V1.65
+    public JMenu menu() {  //V2.10
+        Ear e = new Ear();
+        JMenuItem i;
+        JMenu menu = new JMenu("Java");
+        menu.setMnemonic('J');
+        i = new JMenuItem("Compile All");
+        i.addActionListener(e);
+        menu.add(i);
+        return menu; 
+    }
     public static String getClassPath(File f) {
         String name;
         try {
@@ -199,6 +209,13 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
             } else {
                 edit.setMessage("compiler error", false);
             }
+        }
+    }
+
+    class Ear implements ActionListener {  //V2.10
+        public void actionPerformed(ActionEvent e) {
+           System.out.println("Action: "+e.getActionCommand());
+           compileAll();
         }
     }
 
