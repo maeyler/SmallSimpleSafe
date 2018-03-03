@@ -170,7 +170,10 @@ public class Fide extends JPanel implements mae.util.Editor {
    }
    public void open(File f) {  //called from another class
       confirmedSave();
-      setSource(Browser.fileToString(f), f);
+      String txt = Browser.fileToString(f);
+      if (!Browser.isPlainText(f, txt))
+         throw new RuntimeException("Not a text file: "+f);
+      setSource(txt, f);
       src.select(0, 0);
    }
    public void openPrev() { //V1.65
@@ -239,7 +242,7 @@ public class Fide extends JPanel implements mae.util.Editor {
       JOptionPane pane = new JOptionPane(msg, typ, opt, null, but);
       Scaler.scaleComp(pane);
       JDialog dialog = pane.createDialog(this,title);
-      dialog.show(); //modal
+      dialog.setVisible(true); //modal
       dialog.dispose();
       Object reply = pane.getValue();
       //System.err.println("JOptionPane: "+reply);
@@ -309,7 +312,7 @@ public class Fide extends JPanel implements mae.util.Editor {
         pane.selectInitialValue();
         Scaler.scaleComp(pane);
         JDialog dialog = pane.createDialog(parent, title);
-        dialog.show(); //modal
+        dialog.setVisible(true); //modal
         dialog.dispose();
         Object value = pane.getInputValue();
         //System.err.println("JOptionPane: "+value);
