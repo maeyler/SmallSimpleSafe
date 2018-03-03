@@ -117,6 +117,9 @@ public class Inspector {
         Data d = (Data) objMap.get(h);
         return (d == null) ? NULL : d;
     }
+    public void addObject(Object x) {
+        addObject(x, null); inspectObject(x);
+    }
     Data addObject(Object x, String id) {
         Data d = getData(x);
         if (d != NULL)
@@ -411,10 +414,8 @@ public class Inspector {
         }
         panel.setCounts(c);
     }
-    void inspectObject(Object x) {
-        if (x == null)
-            return;
-        inspectObject(getData(x));
+    public void inspectObject(Object x) {
+        if (x != null) inspectObject(getData(x));
     }
     void inspectObject(Data d) {
         if (d.id == null)

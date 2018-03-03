@@ -36,7 +36,7 @@ public class BrowserPanel extends JSplitPane {
    LineNumberPane lines; //V1.65
    JLabel lab;
    JEditorPane htm;
-   TinyButton save, move, open, refr, plus, minus, rotL, rotR, fix;
+   TinyButton save, move, open, refr, plus, minus, rotL, rotR, fix, insp;
    Component current;
    ImageIcon icn;
    Image img;
@@ -179,6 +179,11 @@ public class BrowserPanel extends JSplitPane {
       move.setToolTipText("Rename/Move the displayed file");
       move.setEnabled(false);
       but.add(move);
+      insp = new TinyButton(Browser.INSPECT);
+      insp.setMnemonic('I');
+      insp.setToolTipText("Inspect the file in SSS");
+      insp.setEnabled(false);
+      but.add(insp);
       open = new TinyButton(Browser.OPEN);
       open.setMnemonic('O');
       open.setToolTipText("Edit/Open/Run the displayed file");
@@ -191,7 +196,13 @@ public class BrowserPanel extends JSplitPane {
       p.add(fileL, "South");
       return p;
    }
-   void addListeners(Browser.Ear ear ) {
+   void enableButtons() {
+      save.setEnabled(true);
+      move.setEnabled(true);
+      insp.setEnabled(true);
+      move.setText(Browser.RENAME);
+   }
+   void addListeners(Browser.Ear ear) {
       lab.addKeyListener(ear);
       txt.addKeyListener(ear);
       htm.addKeyListener(ear);
@@ -204,6 +215,8 @@ public class BrowserPanel extends JSplitPane {
       save.addKeyListener(ear);
       move.addActionListener(ear);
       move.addKeyListener(ear);
+      insp.addActionListener(ear);
+      insp.addKeyListener(ear);
       open.addActionListener(ear);
       open.addKeyListener(ear);
       refr.addActionListener(ear);

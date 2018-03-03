@@ -17,6 +17,7 @@ import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import mae.sss.SSS;
 import mae.sss.InspectorPanel;
 import mae.util.PropertyManager;
 import mae.util.SimpleFilter;
@@ -42,7 +43,7 @@ public class Browser {
    final static String 
       RENAME = "Rename", MOVE = "Move", SAVE = "Save As", 
       REFR = "Refresh", VIEW = "View", FIX = "Fix date",
-      RUN = "Run", EDIT = "Edit", OPEN = "Open";
+      RUN = "Run", EDIT = "Edit", OPEN = "Open", INSPECT = "Inspect";
    final static int      //integers for known file types
       TEXT=0, PICT=1, HTML=2, CLASS=3, ZIP=4;  //ezvu removed V1.66
    final static String[] //keys for known file types
@@ -227,9 +228,7 @@ format.zip=zip,jar,0
          //x.printStackTrace();
          System.err.println(x);
       }
-      pan.save.setEnabled(true);
-      pan.move.setEnabled(true);
-      pan.move.setText(RENAME);
+      pan.enableButtons();
    }
 
    static String fileToString(String fName)  {
@@ -327,6 +326,10 @@ format.zip=zip,jar,0
       if (!h.setTarget(file)) return; 
       h.loadTarget(); h.run(file);
    }
+   void doInspect() {
+      System.out.println("Inspect "+file); 
+      SSS.main().addObject(file);
+   }
    void doOpen() throws IOException, ClassNotFoundException {
       String cmd = pan.open.getText();
       if (mouseOn != null) {
@@ -404,6 +407,8 @@ format.zip=zip,jar,0
                doMove();
             else if (src == pan.save) 
                doSave();
+            else if (src == pan.insp) 
+               doInspect();
             else if (src == pan.open) 
                doOpen();
             else  if (src == pan.refr) 
