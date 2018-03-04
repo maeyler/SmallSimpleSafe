@@ -15,6 +15,7 @@ import mae.util.SimpleFilter;
 import mae.util.Console;
 import mae.util.Scaler;
 import mae.brow.Fide;
+import mae.brow.Browser;
 
 /** Adds various static methods to SSS */
 public class Menu {
@@ -296,7 +297,7 @@ public class Menu {
 	the java files encoded with Cp1254 (generally written in Windows). 
 	The method below, converts the encoding of given files from Cp1254 to UTF-8.
 	*/
-	public static void fixEncoding(File... files){
+	public static void fixEncoding(File... files){  //V2.10 (by B E Harmansa)
 		//File[] files = Console.filesToOpen(null);
 
 		final String baseEncoding = "Cp1254";
@@ -310,7 +311,8 @@ public class Menu {
 				if (baseData[0]==-17 && baseData[1]==-69 && baseData[2]==-65) continue;
 
 				String text = new String(baseData, baseEncoding);
-				
+				if (!Browser.isPlainText(f, text)) continue;
+
 				byte[] targetData = text.getBytes(targetEncoding);
 				if (targetData.length == f.length()) continue;
 

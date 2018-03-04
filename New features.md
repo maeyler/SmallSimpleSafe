@@ -2,6 +2,16 @@
 
 ### Binary version history is [here](https://github.com/maeyler/SmallSimpleSafe/commits/master/sss.jar)
 
+### V2.10  Mar 06 2018
+* Menu.fixEncoding() fixes text files encoded in Cp1254 (by B E Harmansa)
+* Console.selectFiles() allows multiple file selection (by B E Harmansa)
+* Deprecated fields are hidden in Inspector (by B E Harmansa)
+* File type in Browser is probed using java.nio.file.Files.probeContentType()
+* Fide opens text files only, throws Exception otherwise
+* Fide has Java menu as replacement for Chooser.compileAll()
+* Inspect button in Browser opens SSS to inspect the selected file
+* Requires Java 7 or higher
+
 ### V2.09  Dec 16, 2017
 * Paste order is modified: Image, then File, then String and others
 * New constructor ClassSummary(InputStream)

@@ -262,6 +262,7 @@ public class Console extends JFrame {
        return new File(D.getDirectory(), fa);  //fa[0];
    }
    static File[] selectFiles(File f, String filter, FileDialog D) {
+      //V2.10 (by B E Harmansa)
       if (f != null && f.exists()) D.setDirectory(f.getParent());
 
       applyFilter(filter, D);
@@ -302,7 +303,7 @@ public class Console extends JFrame {
       JOptionPane pane = new JOptionPane(msg, typ, opt, null, but);
       Scaler.scaleComp(pane);
       JDialog dialog = pane.createDialog(parent, title);
-      dialog.show(); //modal
+      dialog.setVisible(true); //modal
       dialog.dispose();
       Object reply = pane.getValue();
       return (reply == but[0]);

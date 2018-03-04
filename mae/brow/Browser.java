@@ -257,7 +257,7 @@ format.zip=zip,jar,0
    static String fileTypeURL(File f) throws Exception { //V1.67
       return f.toURI().toURL().openConnection().getContentType();
    }
-   static String fileTypeNIO(File f) throws Exception { //V2.10
+   static String fileTypeNIO(File f) throws Exception { //V2.10 (by B E Harmansa)
       return java.nio.file.Files.probeContentType(f.toPath());
    }
    public static boolean isPlainText(File f, String s)  {

@@ -128,7 +128,7 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
         return f.getParent();
     }
     void compile(File f, boolean all) {
-        if (!isAvailable || !canCompile())
+        if (!canCompile())
             throw new RuntimeException("not initialized");
         prog = null;
         if (all) {
@@ -146,8 +146,8 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
             String s = f.getAbsolutePath();
             if (s.endsWith(".java")) L.add(s);
         }
-        System.out.println(L.size()+" files compiled");
-        if (L.size() == 3) return;
+        if (L.size() <= 3) return;
+        System.err.println((L.size()-3)+" files will be compiled");
         new Comp(L.toArray(sa)).start();
     }
     int compile(String[] a) { //called by class Comp
@@ -156,8 +156,8 @@ public class JavaSourceHandler extends mae.util.SourceHandler {
         System.out.println();
         try {
             int k = JC != null?
-                JC.run(null, System.out, System.err, a) :
-                (Integer)javac.invoke(null, (Object)a);
+                JC.run(null, System.out, System.err, a) :  //Java Compiler
+                (Integer)javac.invoke(null, (Object)a);    //use tools.jar
             return k;
         } catch (Exception x) {
             edit.setMessage(x.getMessage()); return -1;

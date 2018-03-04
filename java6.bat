@@ -1,1 +1,0 @@
-\java\JRE\jre6\bin\java mae.sss.SSS
