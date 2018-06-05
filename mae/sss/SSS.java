@@ -14,7 +14,11 @@ public class SSS extends JFrame {
    public static final String 
        SSS_date = "Mar 2018 ", SSS_version = "V2.10", 
        JAVA_version = System.getProperty("java.version");
-   public static boolean JAVA9 = JAVA_version.compareTo("9")>=0;
+   public static boolean JAVA9; // Is Java version 9 or higher ? 
+   static {
+      String a = JAVA_version.split("\\.")[0];
+      JAVA9 = Integer.valueOf(a).compareTo(9) >= 0;
+   }
    public static final String 
        PREFS =  JAVA9 && Scaler.HIGH_DPI? "mae-sss" : "mae",
        title = "Small Simple Safe";
