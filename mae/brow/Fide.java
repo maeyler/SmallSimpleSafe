@@ -39,6 +39,7 @@ public class Fide extends JPanel implements mae.util.Editor {
    String TAB;   //replaces TAB key
    File file, prevF;
    int prevS, prevE;
+   long lastModified;
    JMenu recent, trans;
    JFrame frm;
    final JTextArea src = new JTextArea();
@@ -56,7 +57,7 @@ public class Fide extends JPanel implements mae.util.Editor {
    final Ear ear = new Ear();
    String filter;
    //final Map filters = new HashMap();
-
+   
    public final static int 
       GAP = Scaler.scaledInt(4),  //used in BorderLayout
       MAX_ITEMS = 15,  //items in recent  10->15  V1.65
@@ -107,7 +108,8 @@ public class Fide extends JPanel implements mae.util.Editor {
       add(msg, "South");
       
       frm = new JFrame("Fide"); 
-      frm.addWindowListener(ear);
+      frm.addWindowListener(ear); 
+      frm.addWindowFocusListener(ear);
       frm.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
       frm.setJMenuBar(setupMenus());
       frm.setContentPane(this); 
@@ -205,6 +207,7 @@ public class Fide extends JPanel implements mae.util.Editor {
       prevF = file;
       text = t; 
       file = f; 
+      if( f != null )lastModified = f.lastModified();
       prevS = src.getSelectionStart();
       prevE = src.getSelectionEnd();
       String s = (f == null)? "[new file]" : f.getName(); 
@@ -231,7 +234,7 @@ public class Fide extends JPanel implements mae.util.Editor {
    }
    void confirmedSave() {
       String s = src.getText();
-      if (text == null || s.equals(text)) return;  
+      if (text == null || s.equals(text)) return;
       String title = "Text is modified";
       String msg = "Do you want to save";
       if (file != null) msg += "\n"+file;
@@ -249,6 +252,28 @@ public class Fide extends JPanel implements mae.util.Editor {
       if (reply == but[0]) save();
       else if (reply != but[1]) //cancel
          throw new RuntimeException("action cancelled");
+   }
+   void modifiedAnother(){
+      if(file.lastModified() == lastModified) return;
+      lastModified = file.lastModified();
+	  String title,msg;
+	  if(file.exists()){
+      title = "Reload";
+      msg = file+"\n\nText is modified by another program\nDo you want to reload?";
+	  }else{
+	  title = "Keep";
+      msg = file+"\n\nThe file doesn't exsist anymore\nDo you want to keep it in editor?";
+	  }
+      int typ = JOptionPane.QUESTION_MESSAGE;
+      int opt = JOptionPane.YES_NO_OPTION;
+      String[] but = {"Yes", "No"};
+      JOptionPane pane = new JOptionPane(msg, typ, opt, null, but);
+      JDialog dialog = pane.createDialog(this,title);
+      dialog.setVisible(true);
+      dialog.dispose();
+      Object reply = pane.getValue();
+      if (reply == but[0]) open(file);
+      else if(reply == but[1] && !file.exists()) openPrev();
    }
    public void save() {
       String s = src.getText();
@@ -467,6 +492,9 @@ public class Fide extends JPanel implements mae.util.Editor {
             setMessage(x);
          }
       }
+      public void windowGainedFocus(WindowEvent e){
+            modifiedAnother(); //modified by another program
+      }  
    }
 ///==============================================================
    JMenu newMenu(String s, char c) {
